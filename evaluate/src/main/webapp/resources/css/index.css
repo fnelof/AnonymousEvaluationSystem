@@ -1,0 +1,106 @@
+body{
+	background-color:#849CC5;
+	text-align:center;
+}
+h1{
+	margin-top: 30px;
+}
+#logout{
+	float:right;
+}
+.close{
+	margin:10px;
+
+}
+.modal-dialog{
+	padding-top:10%;
+}
+h2{
+	text-align:center;
+	margin-top: 25px;
+	
+}
+#requestButton{
+	float:center;
+}
+input{
+	text-align:center;
+}
+.dropdown-menu{ 
+	width:100%;
+	text-align:center;
+}
+.dropdown-menu li a {
+	white-space: normal;
+}
+.result{
+	margin:auto;
+	text-align:center;
+	max-width:1000px;
+	display:none;
+}
+.dropdown{
+	padding:10px;
+}
+.btn{
+	white-space:normal !important;
+}
+.checkInput{
+	margin:10px;
+}
+#voteModal{
+  	width:50%;
+  	left: 50%;
+  	top:25%;
+	transform: translateX(-50%);
+	overflow-y: auto;
+  	z-index:2;
+}
+.leftCheckbox{
+	text-align:right;
+}
+#error{
+	position: fixed;
+	bottom: 0;
+	width: 75%;
+	height: 90px;
+	left: 12.5%;
+	z-index:3;
+}
+#success{
+	position: fixed;
+	bottom: 0;
+	width: 75%;
+	height: 90px;
+	left: 12.5%;
+	z-index:3;
+}
+@media only screen and (max-width: 992px) {
+	
+	.checkDiv{
+		left:40%;
+		text-align:left;
+	}
+	
+	#voteModal{
+		width:100%;
+	}
+}
+
+@media only screen and (min-width: 992px) {
+	#voteModal{
+		width:50%;
+	}
+	.checkDiv{
+		text-align:center;
+		left:10%;
+	}
+	#comment{
+		margin: 0 auto;
+    	float: none;
+		width:50%
+	}
+	
+}
+
+
