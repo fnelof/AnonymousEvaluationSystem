@@ -10,5 +10,5 @@ Finally, the blind signature gets unblinded and the student now has a valid sign
 The usage of this application is to evaluate a particular instructor and his contribution to a specific course.
 The student has to submit his form using the original message created from the wordlist and the signed ticket.  
 
-Then, the application uses the public key of the server to verify the signature and generates the hash of the original message. If the generated hash is equal to the verification of the signed ticket, the form is submitted.
+Then, the application uses the public key of the server to verify the signature and generates the hash of the original message. If the generated hash is equal to the verification of the signed ticket, the evaluation form is submitted.
 
