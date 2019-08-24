@@ -7,7 +7,7 @@ $(document).ready(function() {
 	var dictionary = [];
 	var courseList = [];
 	var instructorList  = [];
-	var course_id,instructorList;
+	var course_id;
 	//get dictionary for m
 	$.get( "getDictionary", function( data ) {
 		dictionary=JSON.parse(data).dictionary;
@@ -47,9 +47,9 @@ $(document).ready(function() {
 			$("#hash").text("(SHA256(m)): " + digest);
 		
 			// generate random r
-			
-			var  randomValue = Math.floor(1 + (Math.random()*99999999999));
-			r = new BigInteger(randomValue.toString());
+
+            var  randomValue = getRandomInt(0,1000000);
+            r = new BigInteger(randomValue.toString());
 		
 			// blind t with r
 			var tNum = convertStringToInteger(t);
@@ -142,7 +142,7 @@ $(document).ready(function() {
 	function generateM(){
 		var message = "";
 		for(var i=0;i<5;i++){
-			var randomNumber = Math.floor(Math.random()*dictionary.length);
+            var randomNumber = getRandomInt(0,dictionary.length);
 			word = dictionary[randomNumber].replace(/"/g,"");
 			word = word.charAt(0).toUpperCase() +word.slice(1);
 			message = message + word;
@@ -208,6 +208,17 @@ $(document).ready(function() {
 	}
 	function s(x) {return x.charCodeAt(0);}
 
+    function getRandomInt(min, max) {
+        var randomBuffer = new Uint32Array(1);
+
+        window.crypto.getRandomValues(randomBuffer);
+
+        var randomNumber = randomBuffer[0] / (0xffffffff + 1);
+
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(randomNumber * (max - min + 1)) + min;
+    }
 	$(document).on('click','.dropdown-menu li a',function(){
 		$(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
 	});
