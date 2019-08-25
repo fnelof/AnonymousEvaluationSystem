@@ -14,26 +14,62 @@
     	<version>3.8.1</version>
     	<scope>test</scope>
     </dependency>
-   	<dependency>
+	<dependency>
 		<groupId>org.springframework.security</groupId>
 		<artifactId>spring-security-web</artifactId>
-		<version>5.0.0.RELEASE</version>
+		<version>5.1.6.RELEASE</version>
   	</dependency>
-  	<dependency>
-    	<groupId>org.springframework.security</groupId>
-    	<artifactId>spring-security-config</artifactId>
-    	<version>5.0.0.RELEASE</version>
-  	</dependency>
+	<dependency>
+		 <groupId>org.springframework.security</groupId>
+		 <artifactId>spring-security-config</artifactId>
+		 <version>5.1.6.RELEASE</version>
+	</dependency>
   	<dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-webmvc</artifactId>
     	<version>5.0.2.RELEASE</version>
-  	</dependency>
+		<exclusions>
+			<exclusion>
+				<artifactId>spring-aop</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring-beans</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring-context</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring-core</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring-expression</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring-web</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+		</exclusions>
+	</dependency>
   	<dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-orm</artifactId>
     	<version>5.0.2.RELEASE</version>
-  	</dependency>
+		<exclusions>
+			<exclusion>
+				<artifactId>spring-beans</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring-core</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+		</exclusions>
+	</dependency>
   	<dependency>
     	<groupId>org.hibernate</groupId>
     	<artifactId>hibernate-core</artifactId>
@@ -117,6 +153,12 @@
     <groupId>org.webjars</groupId>
     <artifactId>bootstrap</artifactId>
     <version>4.1.0</version>
+	<exclusions>
+		<exclusion>
+			<artifactId>jquery</artifactId>
+			<groupId>org.webjars</groupId>
+		</exclusion>
+	</exclusions>
 </dependency>
 <dependency>
     <groupId>org.webjars.npm</groupId>
@@ -127,6 +169,16 @@
     <groupId>org.webjars</groupId>
     <artifactId>webjars-locator</artifactId>
     <version>0.34</version>
+	<exclusions>
+		<exclusion>
+			<artifactId>jackson-core</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+		</exclusion>
+		<exclusion>
+			<artifactId>jackson-databind</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+		</exclusion>
+	</exclusions>
 </dependency>
 <dependency>
    <groupId>org.webjars.npm</groupId>
