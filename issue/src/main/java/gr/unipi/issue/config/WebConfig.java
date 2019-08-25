@@ -12,7 +12,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = { "gr.unipi.issue.controller",
-		"gr.unipi.issue.service","gr.unipi.issue.dao"})
+		"gr.unipi.issue.service",
+        "gr.unipi.issue.dao",
+        "gr.unipi.issue.listeners"})
 public class WebConfig implements WebMvcConfigurer {
 
   @Override
