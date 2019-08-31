@@ -1,6 +1,7 @@
 package gr.unipi.issue.controller;
 
 
+import gr.unipi.issue.common.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ public class MyContoller {
   @GetMapping("/")
   public ModelAndView index() {
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.setViewName("index");
+    modelAndView.setViewName(Constants.INDEX);
     
     return modelAndView;
   }

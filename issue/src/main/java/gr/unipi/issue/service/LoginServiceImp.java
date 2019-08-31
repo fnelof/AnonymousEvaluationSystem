@@ -1,5 +1,6 @@
 package gr.unipi.issue.service;
 
+import gr.unipi.issue.common.Constants;
 import gr.unipi.issue.dao.UserDetailsDao;
 import gr.unipi.issue.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class LoginServiceImp implements LoginService {
     public void updateLoginAttempts(String username) {
         Student student = userDetailsDao.findUserByUsername(username);
         student.setLoginAttempts(student.getLoginAttempts()+1);
-        if(student.getLoginAttempts() >4){
+        if(student.getLoginAttempts() >= Constants.MAXIMUM_LOGIN_ATTEMPTS){
             student.setEnabled(false);
         }
     }

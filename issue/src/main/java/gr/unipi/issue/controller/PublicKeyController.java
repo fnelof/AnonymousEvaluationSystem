@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 
+import gr.unipi.issue.common.Constants;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,13 +31,13 @@ public class PublicKeyController {
 		try {
 			PublicKeyDetails publicKey = publicKeyService.getPublicKey();
 		
-			response.put("modulus", publicKey.getModulus().toString());
-			response.put("exponent", publicKey.getExponent().toString());
+			response.put(Constants.MODULUS, publicKey.getModulus().toString());
+			response.put(Constants.EXPONENT, publicKey.getExponent().toString());
 	
 			return response.toString();
 		}catch(CertificateException | IOException | NoSuchAlgorithmException ex) {
 			System.out.println(ex.toString());
-			response.put("error", "Something went wrong on our end. Please contact the administrator for further details");
+			response.put(Constants.ERROR_RESPONSE_OBJECT, "Something went wrong on our end. Please contact the administrator for further details");
 			return response.toString();
 		}
 		

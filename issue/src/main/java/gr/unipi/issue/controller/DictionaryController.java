@@ -4,6 +4,7 @@ package gr.unipi.issue.controller;
 import java.io.IOException;
 import java.io.InputStream;
 
+import gr.unipi.issue.common.Constants;
 import org.apache.commons.compress.utils.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,7 +30,7 @@ public class DictionaryController {
 
 		try {
 			// Reads data.json file with the wordlist
-			Resource resource = new ClassPathResource("data.json");
+			Resource resource = new ClassPathResource(Constants.DICTIONARY_PATH);
 			InputStream resourceInputStream = resource.getInputStream();
 			byte[] jsonData = IOUtils.toByteArray(resourceInputStream);
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -39,14 +40,14 @@ public class DictionaryController {
 			for(final JsonNode node: rootNode) {
 				jsonArray.put(node.toString());
 			}
-			response.put("dictionary", jsonArray);
+			response.put(Constants.DICTIONARY_RESPONSE_OBJECT, jsonArray);
 			
 			return response.toString();
 			// Handles the exception of fetching the data.json wordlist
 		} catch (IOException e) {
 			
 			e.printStackTrace();
-			response.put("error", "Something went wrong");
+			response.put(Constants.ERROR_RESPONSE_OBJECT, "Something went wrong");
 			return response.toString();
 
 		}

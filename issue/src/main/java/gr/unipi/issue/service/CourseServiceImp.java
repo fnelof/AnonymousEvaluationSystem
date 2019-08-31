@@ -3,6 +3,7 @@ package gr.unipi.issue.service;
 import java.math.BigInteger;
 import java.util.List;
 
+import gr.unipi.issue.common.Constants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,17 +47,17 @@ public class CourseServiceImp implements CourseService {
 			// Populates each course's json object with the corresponding instructors
 			for(Instructor i : c.getInstructors()) {
 				JSONObject instructor = new JSONObject();
-				instructor.put("id", i.getId());
-				instructor.put("name",i.getFirstname() + " " + i.getLastname());
-				instructor.put("title", i.getTitle());
+				instructor.put(Constants.ID, i.getId());
+				instructor.put(Constants.NAME,i.getFirstname() + " " + i.getLastname());
+				instructor.put(Constants.TITLE, i.getTitle());
 				
 				instructorList.put(instructor);
 			}
-			course.put("instructorList", instructorList);
+			course.put(Constants.INSTRUCTOR_LIST, instructorList);
 			courses.put(course);
 		}
 		
-		response.put("courseList", courses);
+		response.put(Constants.COURSE_LIST, courses);
 		return response;
 	}
 

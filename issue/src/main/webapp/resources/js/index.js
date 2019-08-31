@@ -2,7 +2,7 @@
 $(document).ready(function() {
 	
 	var crypto = window.crypto || window.msCrypto;
-	var m,t,n,e,r,signedBlindedTicket;
+	var m,t,n,e,r,blindSignature;
 
 	var dictionary = [];
 	var courseList = [];
@@ -66,8 +66,8 @@ $(document).ready(function() {
 				  data: d,
 				  success: function(result){
 					  $("#result").hide();
-					  signedBlindedTicket = new BigInteger(result["signedBlindedTicket"]);
-					  var signedTicket = unblind(signedBlindedTicket,r);
+					  blindSignature = new BigInteger(result["blindSignature"]);
+					  var signedTicket = unblind(blindSignature,r);
 					  $("#result").html("<strong>Success!</strong><hr>" +
 							"<strong>Message</strong><br>" + m + "<br>" +
 					  		"<strong>Signed ticket</strong><br>" +

@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
+import gr.unipi.issue.common.Constants;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class TicketController {
 		try {
 			signedBlindedTicket = privateKeyService.signMessage(blindedTicket);
 						
-			response.put("signedBlindedTicket", signedBlindedTicket.toString());
+			response.put(Constants.BLIND_SIGNATURE, signedBlindedTicket.toString());
 			return response.toString();
 			// Handles and informs user about a possible exception
 		} catch (UnrecoverableKeyException | KeyStoreException | NoSuchAlgorithmException | CertificateException
