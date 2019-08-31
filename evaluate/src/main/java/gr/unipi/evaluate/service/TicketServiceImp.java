@@ -9,6 +9,7 @@ import java.security.cert.CertificateException;
 
 import javax.persistence.NoResultException;
 
+import gr.unipi.evaluate.common.Constants;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class TicketServiceImp implements TicketService{
 	// Generates the hash of the original message m (SHA-256(m))
 	@Override
 	public String generateHash(String msg) throws NoSuchAlgorithmException {
-		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		MessageDigest digest = MessageDigest.getInstance(Constants.HASH_ALGORITHM);
 		byte[] hash = digest.digest(
 		  msg.getBytes(StandardCharsets.UTF_8));
 		String hashString = new String(Hex.encode(hash));

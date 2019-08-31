@@ -2,6 +2,7 @@ package gr.unipi.evaluate.service;
 
 import java.util.List;
 
+import gr.unipi.evaluate.common.Constants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,11 @@ public class QuestionServiceImp implements QuestionService{
 		JSONArray questionList = new JSONArray();
 		for(Question q: questionnaire) {
 			JSONObject question = new JSONObject();
-			question.put("id", q.getId());
-			question.put("question", q.getQuestion());
+			question.put(Constants.ID, q.getId());
+			question.put(Constants.QUESTION, q.getQuestion());
 			questionList.put(question);
 		}
-		jsonObject.put("questionnaire", questionList);
+		jsonObject.put(Constants.QUESTIONNAIRE, questionList);
 		return jsonObject;
 	}
 

@@ -3,6 +3,7 @@ package gr.unipi.evaluate.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.unipi.evaluate.common.Constants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,10 @@ public class DepartmentServiceImp implements DepartmentService{
 		JSONArray deptList = new JSONArray();
 		for(Department dept: departmentList) {
 			JSONObject department = new JSONObject();
-			department.put("name", dept.getName());
+			department.put(Constants.NAME, dept.getName());
 			deptList.put(department);
 		}		
-		response.put("departmentList", deptList);
+		response.put(Constants.DEPARTMENT_LIST, deptList);
 		return response;
 	}
 

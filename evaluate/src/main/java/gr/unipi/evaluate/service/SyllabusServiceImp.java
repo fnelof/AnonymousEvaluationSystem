@@ -3,6 +3,7 @@ package gr.unipi.evaluate.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.unipi.evaluate.common.Constants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +31,12 @@ public class SyllabusServiceImp implements SyllabusService{
 
 		for(Syllabus s: syllabusList) {
 			JSONObject syllabus = new JSONObject();
-			syllabus.put("name", s.getName());
-			syllabus.put("id",s.getId());
+			syllabus.put(Constants.NAME, s.getName());
+			syllabus.put(Constants.ID,s.getId());
 			jsonArray.put(syllabus);
 		}
 		JSONObject response = new JSONObject();
-		response.put("syllabusList",jsonArray);
+		response.put(Constants.SYLLABUS_LIST,jsonArray);
 		return response;
 	}
 

@@ -7,6 +7,7 @@ import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.unipi.evaluate.common.Constants;
 import org.hibernate.HibernateException;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,15 +56,15 @@ public class EvaluationServiceImp implements EvaluationService{
 				}
 				
 				JSONObject e = new JSONObject(eval);
-				JSONArray jsonArray = e.getJSONArray("voteList");
+				JSONArray jsonArray = e.getJSONArray(Constants.VOTE_LIST);
 				
 				List<Evaluation> evaluationList = new ArrayList<>();
 				
 				// Populate evaluationList
 				for(int i=0; i<jsonArray.length();i++) {
 					JSONObject question =  jsonArray.getJSONObject(i);
-					int questionId = question.getInt("id");
-					int vote= question.getInt("vote");
+					int questionId = question.getInt(Constants.ID);
+					int vote= question.getInt(Constants.VOTE);
 									
 					Evaluation evaluation = new Evaluation(ticket,courseId,instructorId,questionId,vote);
 					evaluationList.add(evaluation);
