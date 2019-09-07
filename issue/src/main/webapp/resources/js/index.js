@@ -1,6 +1,13 @@
 
 $(document).ready(function() {
-	
+
+	//include csrf token on request headers
+	$.ajaxSetup({
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader('X-Csrf-Token', $('input[name="_csrf"]').attr('value'));
+		}
+	});
+
 	var crypto = window.crypto || window.msCrypto;
 	var m,t,n,e,r,blindSignature;
 

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"  isELIgnored="false"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,5 +12,6 @@
 	<form id="logout" action="logout" method="post">
 		<input value="Logout" type="submit">
 	</form>
+	<sec:csrfInput />
 </body>
 </html>

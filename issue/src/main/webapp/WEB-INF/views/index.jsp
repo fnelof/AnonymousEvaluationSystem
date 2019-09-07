@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"  isELIgnored="false"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +20,7 @@
 <body>
 	<form id="logout" action="logout" method="post">
 		<input class="btn btn-danger" value="Logout" type="submit">
+		<sec:csrfInput />
 	</form>
 	<div class="modal-dialog">
 		<div class="modal-content">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"  isELIgnored="false"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,6 +71,6 @@
 	
 	<div class="alert alert-success" role="alert" id="success"></div>		
 	<div class="alert alert-danger" role="alert" id="error"></div>
-	
+	<sec:csrfInput />
 </body>
 </html>

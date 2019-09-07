@@ -1,5 +1,13 @@
 
 $(document).ready(function() {
+
+	//include csrf token on request headers
+	$.ajaxSetup({
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader('X-Csrf-Token', $('input[name="_csrf"]').attr('value'));
+		}
+	});
+
 	var syllabusList = [];
 	var courseList = [];
 	var instructorList = [];
