@@ -21,7 +21,7 @@ $(document).ready(function() {
 	// get departments list
 	$.ajax({
 		  url: "getDepartments",
-		  type: "post",
+		  type: "get",
 		  datatype: "json",
 		  success: function(result){
 			  var data = JSON.parse(result);
@@ -37,7 +37,7 @@ $(document).ready(function() {
 	
 	$.ajax({
 		url: "getQuestionnaire",
-		type:"post",
+		type:"get",
 		datatype:"json",
 		success:function(result){
 			var data = JSON.parse(result);
@@ -68,7 +68,7 @@ $(document).ready(function() {
 
 	$(document).on('click','.department',function(){
 		var dept = $(this).text();
-		$.post("getSyllabus",{department: dept},
+		$.get("getSyllabus",{department: dept},
 			function(result){
 				var data = JSON.parse(result);
 				syllabusList = data.syllabusList;
@@ -100,7 +100,7 @@ $(document).ready(function() {
 	$(document).on('click','.syllabus',function(){
 		var syllabus = $(this).text();
 		var id=$("#"+syllabus.replace(/\s/g, '')).val();
-		$.post("getCourses",{syllabusId:id},
+		$.get("getCourses",{syllabusId:id},
 			function(result){
 				var data = JSON.parse(result);
 				courseList = data["courseList"];
@@ -184,10 +184,10 @@ $(document).ready(function() {
 			if($(this).is(":checked")){
 				var name = parseInt($(this).attr("name"));
 				var v = parseInt($(this).attr("value"));
-				var eval = {};
-				eval.id = name;
-				eval.vote = v;
-				evalList.push(eval);
+				var evaluationObject = {};
+				evaluationObject.id = name;
+				evaluationObject.vote = v;
+				evalList.push(evaluationObject);
 			}
 		});
 		evaluation.voteList = evalList;

@@ -4,9 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import gr.unipi.evaluate.service.DepartmentService;
 
@@ -20,7 +18,7 @@ public class DepartmentController {
 	
 	// Handles the request for all the departments of the university
 
-	@RequestMapping(value="/getDepartments", method = RequestMethod.POST)
+	@GetMapping(value="/getDepartments")
 	public String getDepartments() {
 		logger.info("Start getDepartments");
 		JSONObject response = departmentService.getDepartmentList();

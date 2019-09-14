@@ -6,10 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import gr.unipi.evaluate.service.CourseService;
 
@@ -23,7 +20,7 @@ public class CoursesController {
 	
 	// Handles the request for the courses of a syllabus
 
-	@RequestMapping(value = "/getCourses", method=RequestMethod.POST)
+	@GetMapping(value = "/getCourses")
 	public String getCourses(@RequestParam BigInteger syllabusId) {
 		logger.info("Start getCourses for syllabusId: {}", syllabusId);
 		JSONObject response = courseService.getCoursesFromSyllabus(syllabusId);
