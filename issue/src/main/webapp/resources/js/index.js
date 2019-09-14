@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
 
+	$("#error").hide();
 	//include csrf token on request headers
 	$.ajaxSetup({
 		beforeSend: function(xhr) {
@@ -9,7 +10,7 @@ $(document).ready(function() {
 	});
 
 	var crypto = window.crypto || window.msCrypto;
-	var m,t,n,e,r,blindSignature;
+	var m,t,n,e,randomNumber,blindSignature;
 
 	var dictionary = [];
 	var courseList = [];
@@ -55,12 +56,13 @@ $(document).ready(function() {
 		
 			// generate random r
 
+			var instructor_id = $("#instructorDropdown").val();
             var  randomValue = getRandomInt(0,1000000);
-            r = new BigInteger(randomValue.toString());
+            randomNumber = new BigInteger(randomValue.toString());
 		
-			// blind t with r
+			// blind t with randomNumber
 			var tNum = convertStringToInteger(t);
-			var blinded_ticket = blind(tNum,r);
+			var blinded_ticket = blind(tNum,randomNumber);
 			var d = {
 					"blindedTicket":blinded_ticket.toString(),
 					"courseId":course_id,
@@ -74,15 +76,21 @@ $(document).ready(function() {
 				  success: function(result){
 					  $("#result").hide();
 					  blindSignature = new BigInteger(result["blindSignature"]);
-					  var signedTicket = unblind(blindSignature,r);
-					  $("#result").html("<strong>Success!</strong><hr>" +
-							"<strong>Message</strong><br>" + m + "<br>" +
-					  		"<strong>Signed ticket</strong><br>" +
-					  		"<input id='signedTicket' rows='1' width='100%' value='"+signedTicket+"'/>");
-					  $("#result").toggle();
+					  var signedTicket = unblind(blindSignature,randomNumber);
+					  if(verify(signedTicket)) {
+						  $("#result").html("<strong>Success!</strong><hr>" +
+							  "<strong>Message</strong><br>" + m + "<br>" +
+							  "<strong>Signed ticket</strong><br>" +
+							  "<input id='signedTicket' rows='1' width='100%' value='" + signedTicket + "'/>");
+						  $("#result").toggle();
+					  }else {
+					  	$("#error").html("<strong>SignedTicket was not successfully verified as a valid one, contact the administrators for more details</strong>");
+					  	$("#error").show();
+					  	$('#error').delay(3000).fadeOut('slow');
+					  }
 				  },
 				  error: function(xhr, status, error){
-					  alert("Something went wrong");
+					  $("#error").html("<strong>An error occurred when trying to send the request to the server. Please contact the server administrator for more details.</strong>");
 				  }
 			});
 		});
@@ -139,7 +147,6 @@ $(document).ready(function() {
 	
 	
 	$(document).on('click','.instructor',function(){
-		instructor_id = $(this).parents("li").val();
 		if($("#message").val().trim()){
 			$('#requestButton').prop('disabled', false);			
 		}
@@ -149,8 +156,8 @@ $(document).ready(function() {
 	function generateM(){
 		var message = "";
 		for(var i=0;i<5;i++){
-            var randomNumber = getRandomInt(0,dictionary.length);
-			word = dictionary[randomNumber].replace(/"/g,"");
+            var r = getRandomInt(0,dictionary.length);
+			var word = dictionary[r].replace(/"/g,"");
 			word = word.charAt(0).toUpperCase() +word.slice(1);
 			message = message + word;
 			
@@ -186,29 +193,12 @@ $(document).ready(function() {
 		var byteArray = str.split('').map(s);
 		return new BigInteger(byteArray);
 	}
-	function convertIntegerToString(input){
-		var bytes  = IntegerToByteArray(input);
-		console.log(bytes);
-		var result = "";
-		  for (var i = 0; i < bytes.length; i++) {
-		    result += String.fromCharCode(bytes[i]);
-		  }
-		  return result;
-	}
-	function IntegerToByteArray(x) {
-	    var hexString = x.toString(16);
-	    if(hexString.length % 2 > 0) hexString = "0" + hexString;
-	    var byteArray = [];
-	    for(var i = 0; i < hexString.length; i += 2) {
-	        byteArray.push(parseInt(hexString.slice(i, i + 2), 16));
-	    }
-	    return byteArray;
-	}
+
 	function blind(msg,r){
 		return msg.multiply(r.modPow(e,n)).mod(n);
 	}
 	function verify(msg){
-		return msg.modPow(e,n)
+		return msg.modPow(e,n).equals(convertStringToInteger(t));
 	}
 	function unblind(msg,r){
 		return msg.multiply(r.modInverse(n)).mod(n);
@@ -220,11 +210,11 @@ $(document).ready(function() {
 
         window.crypto.getRandomValues(randomBuffer);
 
-        var randomNumber = randomBuffer[0] / (0xffffffff + 1);
+        var r = randomBuffer[0] / (0xffffffff + 1);
 
         min = Math.ceil(min);
         max = Math.floor(max);
-        return Math.floor(randomNumber * (max - min + 1)) + min;
+        return Math.floor(r * (max - min + 1)) + min;
     }
 	$(document).on('click','.dropdown-menu li a',function(){
 		$(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');

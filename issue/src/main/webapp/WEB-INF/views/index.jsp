@@ -52,6 +52,7 @@
 	</div>
 	
 	<div class="result alert alert-success" id="result"></div>
+	<div class="alert alert-danger" role="alert" id="error"></div>
 	<div id="alertBox" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
