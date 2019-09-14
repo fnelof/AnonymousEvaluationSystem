@@ -37,6 +37,11 @@ public class EvaluationPK implements Serializable {
 		this.questionId = questionId;
 	}
 
-	
-		
+	@Override
+	public String toString() {
+		return "EvaluationPK{" +
+				"ticket='" + ticket + '\'' +
+				", questionId=" + questionId +
+				'}';
+	}
 }

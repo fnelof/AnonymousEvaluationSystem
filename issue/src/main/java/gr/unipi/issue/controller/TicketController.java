@@ -8,6 +8,8 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
 import gr.unipi.issue.common.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,9 @@ import gr.unipi.issue.service.PrivateKeyDetailsService;
 
 @RestController
 public class TicketController {
+
+	private static final Logger logger = LogManager.getLogger(TicketController.class);
+
 	@Autowired
 	PrivateKeyDetailsService privateKeyService;
 	
@@ -27,7 +32,7 @@ public class TicketController {
 	public String getTicket(@RequestParam BigInteger blindedTicket,
 			@RequestParam BigInteger courseId,
 			@RequestParam BigInteger instructorId) {
-				
+		logger.info("Start getTicket");
 		BigInteger signedBlindedTicket;
 		
 		JSONObject response = new JSONObject();
@@ -36,15 +41,21 @@ public class TicketController {
 			signedBlindedTicket = privateKeyService.signMessage(blindedTicket);
 						
 			response.put(Constants.BLIND_SIGNATURE, signedBlindedTicket.toString());
+			logger.info("End getTicket");
 			return response.toString();
 			// Handles and informs user about a possible exception
-		} catch (UnrecoverableKeyException | KeyStoreException | NoSuchAlgorithmException | CertificateException
-				| IOException e) {
+		} catch(NoSuchAlgorithmException ex){
+			logger.error("No such algorithm exception in getTicket", ex);
 
-			e.printStackTrace();
-			response.put("error", "Something went wrong on our end. Please contact the administrator for further details");
-			
-			return response.toString();
+		}catch (UnrecoverableKeyException | KeyStoreException | CertificateException
+				| IOException ex) {
+
+			logger.error("There was something wrong with the certificate in getTicket: ", ex);
+		}catch(Exception ex){
+			logger.error("Unknown exception thrown in getTicket: ", ex);
 		}
+
+		response.put(Constants.ERROR_RESPONSE_OBJECT, "Something went wrong on our end. Please contact the administrator for further details");
+		return response.toString();
 	}
 }

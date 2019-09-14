@@ -3,11 +3,14 @@ package gr.unipi.evaluate.service;
 import java.io.FileNotFoundException;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 
 import gr.unipi.evaluate.common.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +29,9 @@ import gr.unipi.evaluate.model.Ticket;
 
 @Service
 public class EvaluationServiceImp implements EvaluationService{
+
+	private static final Logger logger = LogManager.getLogger(EvaluationServiceImp.class);
+
 	@Autowired
 	TicketService ticketService;
 	
@@ -40,6 +46,10 @@ public class EvaluationServiceImp implements EvaluationService{
 	public JSONObject submitTicketAndEvaluation(BigInteger courseId,BigInteger instructorId,
 			String message, BigInteger signedTicket,
 			String eval,String comment) {
+
+		logger.info("Start submitTicketAndEvaluation for courseId: {}, instructorId: {}, evaluation: {}, comment: {} ",
+				courseId, instructorId, eval, comment);
+
 		JSONObject response = new JSONObject();
 		try {
 
@@ -79,29 +89,32 @@ public class EvaluationServiceImp implements EvaluationService{
 					evaluationDao.submitEvaluation(evaluation);
 				}				
 				response.put("success", "Your evaluation was submitted successfully!");
+				logger.info("End submitTicketAndEvaluation for courseId: {}, instructorId: {}, evaluation: {}, comment: {} ",
+						courseId, instructorId, eval, comment);
 				return response;
 			}
 			
-			response.put("error", "Message and signed ticket are not a valid combination");
-			
+			response.put(Constants.ERROR_RESPONSE_OBJECT, "Message and signed ticket are not a valid combination");
+			logger.warn("Message and signedTicket are not a valid combination, message: {} signedTicket: {}",message, signedTicket);
 			return response;
-			// Handles possible back end exceptions and notifies the user about it
-		} catch (NoSuchAlgorithmException | FileNotFoundException | CertificateException | JSONException  e ) {
-			e.printStackTrace();
-			
-			response.put("error", "Something went wrong on our end. Please contact an administrator for further details");
-			return response;
-		// Handles possible database exceptions and notifies the user accordingly
-		} catch(HibernateException | IllegalArgumentException 
-				| DataIntegrityViolationException | QueryException e) {
-			response.put("error","Something went wrong with processing your evaluation form. Refresh the page and try again. If the error still occurs contact one of our administrators.");
-			return response;
-			
+			// Handles invalid algorithm used in cryptography
+		} catch (NoSuchAlgorithmException | JSONException  ex ) {
+
+			logger.error("No such algorithm exception thrown in submitTicketAndEvaluation, {}", ex);
+		} catch(FileNotFoundException ex){
+			logger.error("File was not found in submitTicketAndEvaluation, {}", ex);
+		} catch(CertificateException ex){
+			logger.error("Certificate exception in submitTicketAndEvaluation, {}", ex);
+			// Handles possible database exceptions and notifies the user accordingly
+		}catch(HibernateException | IllegalArgumentException
+				| DataIntegrityViolationException | QueryException ex) {
+			logger.error("Database related exception, {}", ex);
+
 		// Handles all other exceptions that could occur
-		} catch(Exception e) {
-			response.put("error", "Unknown error");
-			e.printStackTrace();
-			return response;
-		}		
+		} catch(Exception ex) {
+			logger.error("Unknown exception occured in submitTicketAndEvaluation, {}", ex);
+		}
+		response.put(Constants.ERROR_RESPONSE_OBJECT,"Something went wrong with processing your evaluation form. Refresh the page and try again. If the error still occurs contact one of our administrators.");
+		return response;
 	}
 }

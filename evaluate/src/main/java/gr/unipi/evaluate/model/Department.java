@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="departments")
 public class Department {
+
 	@Id
 	@Column(name="name")
 	private String name;
@@ -56,5 +57,12 @@ public class Department {
 
 	public void setInstructorList(List<Instructor> instructorList) {
 		this.instructorList = instructorList;
+	}
+
+	@Override
+	public String toString() {
+		return "Department{" +
+				"name='" + name + '\'' +
+				'}';
 	}
 }

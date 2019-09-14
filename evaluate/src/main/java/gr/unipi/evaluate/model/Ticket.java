@@ -50,5 +50,14 @@ public class Ticket {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Ticket{" +
+				"ticket='" + ticket + '\'' +
+				", course=" + course +
+				", instructor=" + instructor +
+				", comment='" + comment + '\'' +
+				'}';
+	}
 }

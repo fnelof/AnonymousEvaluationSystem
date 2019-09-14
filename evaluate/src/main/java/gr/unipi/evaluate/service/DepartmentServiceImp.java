@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gr.unipi.evaluate.common.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +17,16 @@ import gr.unipi.evaluate.model.Department;
 
 @Service
 public class DepartmentServiceImp implements DepartmentService{
+
+	private static final Logger logger = LogManager.getLogger(DepartmentServiceImp.class);
+
 	@Autowired
 	DepartmentDao departmentDao;
 	
 	// Creates the list of the departments for the front end in json object format
 	@Transactional
 	public JSONObject getDepartmentList() {
-		
+		logger.info("Start getDepartmentList");
 		JSONObject response = new JSONObject();
 		List<Department> departmentList = new ArrayList<Department>();
 		
@@ -33,6 +38,8 @@ public class DepartmentServiceImp implements DepartmentService{
 			deptList.put(department);
 		}		
 		response.put(Constants.DEPARTMENT_LIST, deptList);
+		logger.info("End getDepartmentList");
+
 		return response;
 	}
 

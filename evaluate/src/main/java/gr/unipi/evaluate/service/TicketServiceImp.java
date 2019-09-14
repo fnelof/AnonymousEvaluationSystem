@@ -10,6 +10,8 @@ import java.security.cert.CertificateException;
 import javax.persistence.NoResultException;
 
 import gr.unipi.evaluate.common.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ import gr.unipi.evaluate.model.Ticket;
 
 @Service
 public class TicketServiceImp implements TicketService{
+
+	private static final Logger logger = LogManager.getLogger(TicketServiceImp.class);
+
 	@Autowired
 	PublicKeyDetailsDao publicKeyDao;
 	
@@ -31,19 +36,23 @@ public class TicketServiceImp implements TicketService{
 	// Generates the ticket from the original message m (as a big integer) 
 	@Override
 	public BigInteger generateTicket(String msg) throws NoSuchAlgorithmException {
+		logger.info("Start generateTicket, messsage: {}", msg);
 		String hash = generateHash(msg);
 		
 		BigInteger bigInt = new BigInteger(hash.getBytes());
+		logger.info("End generateTicket, message: {}, ticket: {}", msg, bigInt);
 		return bigInt;
 	}
 	
 	// Generates the hash of the original message m (SHA-256(m))
 	@Override
 	public String generateHash(String msg) throws NoSuchAlgorithmException {
+		logger.info("Start generateHash, message: {}", msg);
 		MessageDigest digest = MessageDigest.getInstance(Constants.HASH_ALGORITHM);
 		byte[] hash = digest.digest(
 		  msg.getBytes(StandardCharsets.UTF_8));
 		String hashString = new String(Hex.encode(hash));
+		logger.info("End generateHash, message: {}", msg);
 		return hashString;
 	}
 	/*
@@ -53,33 +62,38 @@ public class TicketServiceImp implements TicketService{
 	*/
 	@Override
 	public boolean isValid(String msg, BigInteger signedTicket) throws NoSuchAlgorithmException, FileNotFoundException, CertificateException {
-		
+		logger.info("Start isValid, message: {}, signedTicket: {}", msg, signedTicket);
 		BigInteger ticket = generateTicket(msg);
 		PublicKeyDetails publicKey = publicKeyDao.getPublicKeyDetails();
 		
 		BigInteger verifiedTicket = signedTicket.modPow(publicKey.getExponent(), publicKey.getModulus());
 		if(ticket.equals(verifiedTicket)) {
+			logger.info("End isValid, result: {}, message: {}, signedTicket: {}", "true", msg, signedTicket);
 			return true;
 		}
-		
+		logger.warn("End isValid, result: {}, message: {}, signedTicket: {}", "false", msg, signedTicket);
 		return false;
 	}
 	// Checks if the ticket is already used
 	@Transactional
 	public boolean isUsed(String ticket) {
+		logger.info("Start isUsed, ticket: {}", ticket);
 		try {
 
 			ticketDao.isUsed(ticket);
+			logger.info("End isUsed, result: {}, ticket: {}","true", ticket);
 			return true;
 		}catch(NoResultException ex) {
-			
+			logger.info("End isUsed, result: {}, ticket: {}","false", ticket);
 			return false;
 		}
 	}
 
 	@Transactional
 	public void submitTicket(Ticket t) {
+		logger.info("Start submitTicket, ticket: {}", t);
 		ticketDao.submitTicket(t);
+		logger.info("End submitTicket, ticket: {}", t);
 	}
 
 }

@@ -24,7 +24,7 @@ public class Course {
 	
 	@Column(name="title")
 	private String title;
-	
+
 	@ManyToOne
 	@JoinColumn(name="syllabus_id")
 	private Syllabus syllabus;
@@ -127,5 +127,15 @@ public class Course {
 		this.instructors = instructors;
 	}
 
+	@Override
+	public String toString() {
+		return "Course{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", syllabus=" + syllabus +
+				", semester='" + semester + '\'' +
+				", instructors=" + instructors +
+				'}';
+	}
 
 }

@@ -104,5 +104,14 @@ public class Instructor {
 		this.courses = courses;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Instructor{" +
+				"id=" + id +
+				", firstname='" + firstname + '\'' +
+				", lastname='" + lastname + '\'' +
+				", title='" + title + '\'' +
+				", department=" + department +
+				'}';
+	}
 }

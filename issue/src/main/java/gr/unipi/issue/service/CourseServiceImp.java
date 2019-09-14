@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.List;
 
 import gr.unipi.issue.common.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import gr.unipi.issue.model.Instructor;
 
 @Service
 public class CourseServiceImp implements CourseService {
+
+	private static final Logger logger = LogManager.getLogger(CourseServiceImp.class);
+
 	@Autowired
 	StudentDao studentDao;
 	@Autowired
@@ -26,7 +31,7 @@ public class CourseServiceImp implements CourseService {
 	// Gets the Student's courses which he has not requested for a ticket before
 	@Transactional
 	public JSONObject getCourses() {
-
+		logger.info("Start getCourses");
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		BigInteger uid = studentDao.getUidFromUsername(username);
 		
@@ -40,8 +45,8 @@ public class CourseServiceImp implements CourseService {
 		for (Course c: courseList) {
 			JSONObject course = new JSONObject();
 			
-			course.put("id", c.getId());
-			course.put("title", c.getTitle());
+			course.put(Constants.ID, c.getId());
+			course.put(Constants.TITLE, c.getTitle());
 			
 			JSONArray instructorList = new JSONArray();
 			// Populates each course's json object with the corresponding instructors
@@ -58,6 +63,7 @@ public class CourseServiceImp implements CourseService {
 		}
 		
 		response.put(Constants.COURSE_LIST, courses);
+		logger.info("End getCourses, username: {}",username);
 		return response;
 	}
 

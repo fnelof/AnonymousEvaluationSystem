@@ -37,5 +37,12 @@ public class Evaluation {
 	public void setEvaluation(int evaluation) {
 		this.evaluation = evaluation;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Evaluation{" +
+				"id=" + id +
+				", evaluation=" + evaluation +
+				'}';
+	}
 }

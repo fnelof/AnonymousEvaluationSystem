@@ -82,5 +82,13 @@ public class Syllabus {
 	public void setCourseList(List<Course> courseList) {
 		this.courseList = courseList;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Syllabus{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", department=" + department +
+				'}';
+	}
 }

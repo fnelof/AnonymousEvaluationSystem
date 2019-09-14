@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -14,12 +15,17 @@ import gr.unipi.evaluate.model.Syllabus;
 
 @Repository
 public class SyllabusDaoImp implements SyllabusDao{
+
+	private static final Logger logger = LogManager.getLogger(SyllabusDaoImp.class);
+
 	@Autowired
 	SessionFactory sessionFactory;
 	
 	// Fetches the department's list of syllabus from the db
 	@Override
 	public List<Syllabus> getSyllabusList(String department) {
+
+		logger.info("Start getSyllabusList, department: {}", department);
 		Session session = sessionFactory.getCurrentSession();
 		
 		@SuppressWarnings("unchecked")
@@ -27,7 +33,9 @@ public class SyllabusDaoImp implements SyllabusDao{
 		query.setParameter("dept", department);
         List<Syllabus> syllabusList = new ArrayList<Syllabus>();
         syllabusList = query.getResultList();
-       
+
+		logger.info("End getSyllabusList, department: {}", department);
+
 		return syllabusList;
 	}
 

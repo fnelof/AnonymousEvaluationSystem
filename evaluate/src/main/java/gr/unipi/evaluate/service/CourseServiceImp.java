@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.List;
 
 import gr.unipi.evaluate.common.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ import gr.unipi.evaluate.model.Instructor;
 
 @Service
 public class CourseServiceImp implements CourseService {
+
+	private static final Logger logger = LogManager.getLogger(CourseServiceImp.class);
+
 	@Autowired
 	CourseDao courseDao;
 	
@@ -25,7 +30,7 @@ public class CourseServiceImp implements CourseService {
 	*/
 	@Transactional
 	public JSONObject getCoursesFromSyllabus(BigInteger id) {
-
+		logger.info("Start getCoursesFromSyllabus with syllabusId: {}", id );
 		List<Course> courseList =  courseDao.getCoursesFromSyllabus(id);
 		JSONObject response = new JSONObject();
 		JSONArray courses = new JSONArray();
@@ -48,7 +53,9 @@ public class CourseServiceImp implements CourseService {
 			courses.put(course);
 		}
 		response.put(Constants.COURSE_LIST, courses);
-		
+
+		logger.info("End getCoursesFromSyllabus with syllabusId: {}", id );
+
 		return response;
 	}
 	
