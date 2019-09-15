@@ -1,7 +1,6 @@
 package gr.unipi.evaluate.dao;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,8 +32,7 @@ public class CourseDaoImp implements CourseDao{
 		@SuppressWarnings("unchecked")
 		Query<Course> query = session.createQuery("from Course where syllabus.id=:id");
 		query.setParameter("id", id);
-        List<Course> courseList = new ArrayList<Course>();
-        courseList = query.getResultList();
+        List<Course> courseList =  query.getResultList();
 
 
 		logger.info("End getCoursesFromSyllabus, syllabus id: {}", id);

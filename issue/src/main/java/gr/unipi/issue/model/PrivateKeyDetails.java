@@ -4,11 +4,11 @@ import java.math.BigInteger;
 
 public class PrivateKeyDetails {
 	private BigInteger modulus;
-	private BigInteger exponent;
+	private BigInteger privateExponent;
 	
-	public PrivateKeyDetails(BigInteger modulus,BigInteger exponent){
+	public PrivateKeyDetails(BigInteger modulus,BigInteger privateExponent){
 		this.modulus = modulus;
-		this.exponent = exponent;
+		this.privateExponent = privateExponent;
 	}
 	public BigInteger getModulus() {
 		return modulus;
@@ -16,10 +16,10 @@ public class PrivateKeyDetails {
 	public void setModulus(BigInteger modulus) {
 		this.modulus = modulus;
 	}
-	public BigInteger getExponent() {
-		return exponent;
+	public BigInteger getPrivateExponent() {
+		return privateExponent;
 	}
-	public void setExponent(BigInteger exponent) {
-		this.exponent = exponent;
+	public void setPrivateExponent(BigInteger privateExponent) {
+		this.privateExponent = privateExponent;
 	}
 }

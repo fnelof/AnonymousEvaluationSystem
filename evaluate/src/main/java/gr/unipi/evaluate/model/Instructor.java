@@ -39,11 +39,11 @@ public class Instructor {
 	@ManyToMany(mappedBy="instructors")
 	private Set<Course> courses = new HashSet<>();
 	
-	@OneToMany(mappedBy="ticket")
+	@OneToMany(mappedBy="ticketStringValue")
     private Set<Ticket> tickets;
 
-	public Instructor() {};
-	
+	public Instructor(){}
+
 	public Instructor(BigInteger instructorId) {
 		this.id = instructorId;
 	}

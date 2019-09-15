@@ -12,10 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import gr.unipi.issue.service.PrivateKeyDetailsService;
 
@@ -28,7 +25,7 @@ public class TicketController {
 	PrivateKeyDetailsService privateKeyService;
 	
 	// Issues the ticket (signature of the blinded ticket)
-	@RequestMapping(value="issueTicket",method = RequestMethod.POST)
+	@PostMapping(value="issueTicket")
 	public String getTicket(@RequestParam BigInteger blindedTicket,
 			@RequestParam BigInteger courseId,
 			@RequestParam BigInteger instructorId) {

@@ -34,7 +34,7 @@ public class UserDetailsDaoImp implements UserDetailsDao{
 
 		Query<Student> q = session.createQuery(query);
 		
-		Student user = (Student) q.getSingleResult();
+		Student user =  q.getSingleResult();
 		logger.info("End findUserByUsername, username: {}", username);
 		return user;
 	}

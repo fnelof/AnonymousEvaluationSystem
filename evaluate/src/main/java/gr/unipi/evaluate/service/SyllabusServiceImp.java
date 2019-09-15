@@ -1,6 +1,5 @@
 package gr.unipi.evaluate.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import gr.unipi.evaluate.common.Constants;
@@ -30,8 +29,7 @@ public class SyllabusServiceImp implements SyllabusService{
 	@Transactional
 	public JSONObject getSyllabusList(String department) {
 		logger.info("Start getSyllabusList, department: {}", department);
-		List<Syllabus> syllabusList = new ArrayList<Syllabus>();
-		syllabusList = syllabusDao.getSyllabusList(department);
+		List<Syllabus> syllabusList = syllabusDao.getSyllabusList(department);
 		JSONArray jsonArray = new JSONArray();
 
 		for(Syllabus s: syllabusList) {

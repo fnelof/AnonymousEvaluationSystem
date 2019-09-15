@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,7 +28,7 @@ public class DictionaryController {
 	 *  Handles the request for the dictionary 
 	 *  needed for the generation of m on front end
 	*/
-	@RequestMapping(value="/getDictionary")
+	@GetMapping(value="/getDictionary")
 	public String getDictionary() {
 		logger.info("Start getDictionary");
 		JSONObject response = new JSONObject();

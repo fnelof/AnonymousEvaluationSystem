@@ -13,7 +13,7 @@ public class Question {
 	private int id;
 	
 	@Column(name="question")
-	private String question;
+	private String text;
 
 	public int getId() {
 		return id;
@@ -24,18 +24,18 @@ public class Question {
 	}
 
 	public String getQuestion() {
-		return question;
+		return text;
 	}
 
-	public void setQuestion(String question) {
-		this.question = question;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	@Override
 	public String toString() {
 		return "Question{" +
 				"id=" + id +
-				", question='" + question + '\'' +
+				", question='" + text + '\'' +
 				'}';
 	}
 }

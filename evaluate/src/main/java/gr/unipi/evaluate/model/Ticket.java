@@ -13,7 +13,7 @@ public class Ticket {
 	
 	@Id
 	@Column(name="ticket")
-	private String ticket;
+	private String ticketStringValue;
 	
 	@ManyToOne
     @JoinColumn(name="course_id", nullable=false)
@@ -25,22 +25,22 @@ public class Ticket {
 	
 	@Column(name="comment")
 	private String comment;
-	
-	
-	public Ticket() {};
+
+	public Ticket(){}
+
 	public Ticket(String ticket,Course course, Instructor instructor, String comment){
-		this.ticket = ticket;
+		this.ticketStringValue = ticket;
 		this.course = course;
 		this.instructor = instructor;
 		this.comment = comment;
 	}
 	
 	public String getTicket() {
-		return ticket;
+		return ticketStringValue;
 	}
 
-	public void setTicket(String ticket) {
-		this.ticket = ticket;
+	public void setTicket(String ticketStringValue) {
+		this.ticketStringValue = ticketStringValue;
 	}
 
 	public String getComment() {
@@ -54,7 +54,7 @@ public class Ticket {
 	@Override
 	public String toString() {
 		return "Ticket{" +
-				"ticket='" + ticket + '\'' +
+				"ticket='" + ticketStringValue + '\'' +
 				", course=" + course +
 				", instructor=" + instructor +
 				", comment='" + comment + '\'' +

@@ -1,6 +1,5 @@
 package gr.unipi.evaluate.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import gr.unipi.evaluate.common.Constants;
@@ -28,9 +27,7 @@ public class DepartmentServiceImp implements DepartmentService{
 	public JSONObject getDepartmentList() {
 		logger.info("Start getDepartmentList");
 		JSONObject response = new JSONObject();
-		List<Department> departmentList = new ArrayList<Department>();
-		
-		departmentList = departmentDao.getDepartmentList();
+		List<Department> departmentList = departmentDao.getDepartmentList();
 		JSONArray deptList = new JSONArray();
 		for(Department dept: departmentList) {
 			JSONObject department = new JSONObject();

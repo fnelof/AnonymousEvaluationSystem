@@ -14,7 +14,7 @@ public class MvcWebApplicationInitializer
 
   @Override
   protected Class<?>[] getServletConfigClasses() {
-    return null;
+    return new Class[0];
   }
 
   @Override

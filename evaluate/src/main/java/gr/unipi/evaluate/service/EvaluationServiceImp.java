@@ -3,7 +3,6 @@ package gr.unipi.evaluate.service;
 import java.io.FileNotFoundException;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +75,7 @@ public class EvaluationServiceImp implements EvaluationService{
 					int questionId = question.getInt(Constants.ID);
 					int vote= question.getInt(Constants.VOTE);
 									
-					Evaluation evaluation = new Evaluation(ticket,courseId,instructorId,questionId,vote);
+					Evaluation evaluation = new Evaluation(ticket,questionId,vote);
 					evaluationList.add(evaluation);
 				}
 				Ticket t = new Ticket(ticket,new Course(courseId),new Instructor(instructorId),comment);
@@ -98,7 +97,7 @@ public class EvaluationServiceImp implements EvaluationService{
 			logger.warn("Message and signedTicket are not a valid combination, message: {} signedTicket: {}",message, signedTicket);
 			return response;
 			// Handles invalid algorithm used in cryptography
-		} catch (NoSuchAlgorithmException | JSONException  ex ) {
+		} catch (NoSuchAlgorithmException | JSONException ex ) {
 
 			logger.error("No such algorithm exception thrown in submitTicketAndEvaluation, {}", ex);
 		} catch(FileNotFoundException ex){

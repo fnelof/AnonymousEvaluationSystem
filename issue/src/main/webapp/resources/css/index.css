@@ -36,3 +36,11 @@ input{
 	max-width:1000px;
 	display:none;
 }
+#error{
+	position: fixed;
+	bottom: 0;
+	width: 75%;
+	height: 90px;
+	left: 12.5%;
+	z-index:3;
+}

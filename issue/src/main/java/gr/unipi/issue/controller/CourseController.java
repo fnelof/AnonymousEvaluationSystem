@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import gr.unipi.issue.service.CourseService;
@@ -19,7 +19,7 @@ public class CourseController {
 	CourseService courseService;
 
 	// Handles the request for the student's courses
-	@RequestMapping(value="/getCourses", method = RequestMethod.GET)
+	@GetMapping(value="/getCourses")
 	public String getCourses() {
 		logger.info("Start getCourses");
 

@@ -28,7 +28,7 @@ public class UserDetailsServiceImp implements UserDetailsService{
 	*/  
 	@Transactional(readOnly = true)
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) {
 		logger.info("Start loadUserByUsername, username: {}", username);
 		Student user = userDetailsDao.findUserByUsername(username);
 		UserBuilder builder = null;

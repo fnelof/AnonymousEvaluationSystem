@@ -1,6 +1,5 @@
 package gr.unipi.issue.listeners;
 
-import gr.unipi.issue.dao.UserDetailsDao;
 import gr.unipi.issue.service.LoginService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

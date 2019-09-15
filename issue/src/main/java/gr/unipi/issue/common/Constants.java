@@ -19,4 +19,6 @@ public class Constants {
     public static final String COURSE_LIST = "courseList";
     public static final String INSTRUCTOR_LIST = "instructorList";
     public static final String ERROR_RESPONSE_OBJECT = "error";
+
+    private Constants(){}
 }

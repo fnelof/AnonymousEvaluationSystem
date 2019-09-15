@@ -4,8 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link type="text/css" href="issuer/resources/css/index.css" rel="stylesheet"> 
+	<title>Issue a ticket</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link type="text/css" href="issuer/resources/css/index.css" rel="stylesheet">
 
 </head>
 <body>

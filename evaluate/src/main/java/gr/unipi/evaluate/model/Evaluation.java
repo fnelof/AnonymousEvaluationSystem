@@ -1,7 +1,5 @@
 package gr.unipi.evaluate.model;
 
-import java.math.BigInteger;
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -14,12 +12,12 @@ public class Evaluation {
 	private EvaluationPK id;
 	
 	@Column(name="evaluation")
-	private int evaluation;
+	private int evaluationValue;
 	
-	public Evaluation(String ticket, BigInteger courseId, BigInteger instructorId, int questionId, int evaluation) {
+	public Evaluation(String ticket, int questionId, int evaluation) {
 		
 		this.id = new EvaluationPK(ticket,questionId);
-		this.evaluation = evaluation;
+		this.evaluationValue = evaluation;
 		
 	}
 	public EvaluationPK getId() {
@@ -30,19 +28,19 @@ public class Evaluation {
 		this.id = id;
 	}
 
-	public int getEvaluation() {
-		return evaluation;
+	public int getEvaluationValue() {
+		return evaluationValue;
 	}
 
-	public void setEvaluation(int evaluation) {
-		this.evaluation = evaluation;
+	public void setEvaluationValue(int evaluationValue) {
+		this.evaluationValue = evaluationValue;
 	}
 
 	@Override
 	public String toString() {
 		return "Evaluation{" +
 				"id=" + id +
-				", evaluation=" + evaluation +
+				", evaluation=" + evaluationValue +
 				'}';
 	}
 }

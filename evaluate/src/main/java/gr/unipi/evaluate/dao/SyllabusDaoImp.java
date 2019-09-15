@@ -1,6 +1,5 @@
 package gr.unipi.evaluate.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,8 +30,7 @@ public class SyllabusDaoImp implements SyllabusDao{
 		@SuppressWarnings("unchecked")
 		Query<Syllabus> query = session.createQuery("from Syllabus where department.name=:dept");
 		query.setParameter("dept", department);
-        List<Syllabus> syllabusList = new ArrayList<Syllabus>();
-        syllabusList = query.getResultList();
+        List<Syllabus> syllabusList = query.getResultList();
 
 		logger.info("End getSyllabusList, department: {}", department);
 

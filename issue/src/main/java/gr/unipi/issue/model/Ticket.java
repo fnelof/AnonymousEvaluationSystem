@@ -14,14 +14,14 @@ public class Ticket {
 	
 	@Id
 	@Column(name="ticket")
-	private BigInteger ticket;
+	private BigInteger ticketId;
 	
 		
-	public BigInteger getTicket() {
-		return ticket;
+	public BigInteger getTicketId() {
+		return ticketId;
 	}
-	public void setTicket(BigInteger ticket) {
-		this.ticket = ticket;
+	public void setTicketId(BigInteger ticket) {
+		this.ticketId = ticket;
 	}
 
 

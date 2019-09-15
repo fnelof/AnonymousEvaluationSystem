@@ -1,6 +1,5 @@
 package gr.unipi.issue.dao;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -13,5 +12,5 @@ import gr.unipi.issue.model.PrivateKeyDetails;
 
 @Repository
 public interface PrivateKeyDetailsDao {
-	public PrivateKeyDetails getPrivateKeyDetails() throws FileNotFoundException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException;
+	public PrivateKeyDetails getPrivateKeyDetails() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException;
 }

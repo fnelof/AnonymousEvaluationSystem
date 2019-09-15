@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import gr.unipi.issue.model.PublicKeyDetails;
@@ -29,7 +29,7 @@ public class PublicKeyController {
 	 * Handles the request for the public key details
 	 * The public key is needed to encrypt and blind the ticket 
 	*/
-	@RequestMapping("/sendPublicKey")
+	@GetMapping("/sendPublicKey")
 	public String sendPublicKey() {
 		logger.info("Start sendPublicKey");
 		JSONObject response =  new JSONObject();

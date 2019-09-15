@@ -20,4 +20,6 @@ public class Constants {
     public static final String SYLLABUS_LIST = "syllabusList";
     public static final String ERROR_RESPONSE_OBJECT = "error";
     public static final String SUCCESS_RESPONSE_OBJECT = "success";
+
+    private Constants(){}
 }

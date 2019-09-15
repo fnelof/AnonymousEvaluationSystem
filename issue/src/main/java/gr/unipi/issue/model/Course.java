@@ -52,7 +52,7 @@ public class Course {
 
 
 	@OneToMany(mappedBy = "course")
-    private Set<CourseInstructorStudent> courseInstructorStudent = new HashSet<CourseInstructorStudent>();
+    private Set<CourseInstructorStudent> courseInstructorStudent = new HashSet<>();
 
 	public BigInteger getId() {
 		return id;

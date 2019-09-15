@@ -40,8 +40,8 @@ public class Instructor {
 	private Set<Course> courses = new HashSet<>();
 
 	@OneToMany(mappedBy = "instructor")
-    private Set<CourseInstructorStudent> courseInstructorStudent = new HashSet<CourseInstructorStudent>();
-	
+    private Set<CourseInstructorStudent> courseInstructorStudent = new HashSet<>();
+
 	public Set<CourseInstructorStudent> getCourseInstructorStudent() {
 		return courseInstructorStudent;
 	}

@@ -42,7 +42,7 @@ public class Course {
 			)
 	Set<Student> students = new HashSet<>();
 	
-	@OneToMany(mappedBy="ticket")
+	@OneToMany(mappedBy="ticketStringValue")
     private Set<Ticket> tickets;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -52,10 +52,10 @@ public class Course {
 			)
 	Set<Instructor> instructors = new HashSet<>();
 	
+	public Course(){}
 
-	public Course() {};
-	public Course(BigInteger course_id) {
-		this.id = course_id;
+	public Course(BigInteger id) {
+		this.id = id;
 	}
 
 	public BigInteger getId() {
