@@ -19,7 +19,7 @@
 </head>
 <body>
 	
-	<h1>Questionnaire</h1>
+	<h1>Evaluation Form</h1>
 	<div id="questionnaire"></div><hr>
 	<h3>Additional comments about the instructor and his course</h3>
 	<textarea id="comment" class="form-control" rows="5" cols="100"></textarea><br>
