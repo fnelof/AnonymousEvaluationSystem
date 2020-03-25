@@ -34,12 +34,12 @@ public class Student {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "issued", nullable = false)
-	private boolean issued;
-	
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
-	
+
+	@Column(name = "login_attempts",nullable = false)
+	private int loginAttempts;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
 	private Set<Authorities> authorities = new HashSet<>();
 	
@@ -101,20 +101,20 @@ public class Student {
 		this.password = password;
 	}
 
-	public boolean isIssued() {
-		return issued;
-	}
-
-	public void setIssued(boolean issued) {
-		this.issued = issued;
-	}
-
 	public boolean isEnabled() {
 		return enabled;
 	}
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public int getLoginAttempts() {
+		return loginAttempts;
+	}
+
+	public void setLoginAttempts(int loginAttempts) {
+		this.loginAttempts = loginAttempts;
 	}
 
 	public Set<Authorities> getAuthorities() {

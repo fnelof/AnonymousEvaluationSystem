@@ -25,14 +25,15 @@ public class PrivateKeyDetailsServiceImp implements PrivateKeyDetailsService{
 	
 	// Signs the blinded ticket
 	@Override
-	public BigInteger signMessage(BigInteger message) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
+	public BigInteger signMessage(BigInteger message) throws
+			UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
 		logger.info("Start signMessage, message {}", message);
 
 		PrivateKeyDetails privateKey = privateKeyDetailsDao.getPrivateKeyDetails();
-		BigInteger blindedSignedTicket = message.modPow(privateKey.getPrivateExponent(), privateKey.getModulus());
+		BigInteger blindSignature = message.modPow(privateKey.getPrivateExponent(), privateKey.getModulus());
 
-		logger.info("End signMessage, message {}", message);
-		return blindedSignedTicket;
+		logger.info("End signMessage, message {}, blindSignature {}", message, blindSignature);
+		return blindSignature;
 	}
 
 }

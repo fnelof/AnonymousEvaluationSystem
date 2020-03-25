@@ -61,7 +61,8 @@ public class TicketServiceImp implements TicketService{
 	 *  verification(signedTicket) = h(m)
 	*/
 	@Override
-	public boolean isValid(String msg, BigInteger signedTicket) throws NoSuchAlgorithmException, FileNotFoundException, CertificateException {
+	public boolean isValid(String msg, BigInteger signedTicket) throws NoSuchAlgorithmException,
+			FileNotFoundException, CertificateException {
 		logger.info("Start isValid, message: {}, signedTicket: {}", msg, signedTicket);
 		BigInteger ticket = generateTicket(msg);
 		PublicKeyDetails publicKey = publicKeyDao.getPublicKeyDetails();
@@ -82,11 +83,14 @@ public class TicketServiceImp implements TicketService{
 
 			ticketDao.isUsed(ticket);
 			logger.info("End isUsed, result: {}, ticket: {}","true", ticket);
-			return true;
 		}catch(NoResultException ex) {
 			logger.info("End isUsed, result: {}, ticket: {}","false", ticket);
 			return false;
+		}catch(Exception ex){
+			logger.error("An unkown error occured on isUsed", ex);
 		}
+		logger.warn("End isUsed, result: {}, ticket: {}","true", ticket);
+		return true;
 	}
 
 	@Transactional
