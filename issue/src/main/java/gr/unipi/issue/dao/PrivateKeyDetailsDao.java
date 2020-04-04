@@ -12,5 +12,5 @@ import gr.unipi.issue.model.PrivateKeyDetails;
 
 @Repository
 public interface PrivateKeyDetailsDao {
-	public PrivateKeyDetails getPrivateKeyDetails() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException;
+	PrivateKeyDetails getPrivateKeyDetails() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException;
 }

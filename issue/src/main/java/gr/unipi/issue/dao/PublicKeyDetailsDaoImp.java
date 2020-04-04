@@ -7,13 +7,15 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import gr.unipi.issue.model.PublicKeyDetails;
 
 @Repository
 public class PublicKeyDetailsDaoImp implements PublicKeyDetailsDao{
-
+	@Value("${public.key.path}")
+	String publicKeyPath;
 	/*
 	 *  Fetches the public key details, modulus n and public exponent e from the certificate
 	 *	These are needed from the front end to blind the ticket.
@@ -21,9 +23,7 @@ public class PublicKeyDetailsDaoImp implements PublicKeyDetailsDao{
 	@Override
 	public PublicKeyDetails getPublicKeyDetails() throws FileNotFoundException, CertificateException {
 
-		String path = "/home/unipistudent/certificate/server.crt";
-		
-		FileInputStream fin = new FileInputStream(path);
+		FileInputStream fin = new FileInputStream(publicKeyPath);
 		CertificateFactory f = CertificateFactory.getInstance("X.509");
 		X509Certificate certificate = (X509Certificate)f.generateCertificate(fin);
 		RSAPublicKey pk = (RSAPublicKey) certificate.getPublicKey();		
