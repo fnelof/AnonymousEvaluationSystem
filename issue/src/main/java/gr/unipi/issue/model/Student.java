@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -46,9 +45,12 @@ public class Student {
 	@ManyToOne
 	@JoinColumn(name="syllabus_id")
 	private Syllabus syllabus;
-	
+
+	@OneToMany(mappedBy="student")
+	private Set<CourseStudent> courseStudents = new HashSet<>();
+
 	@OneToMany(mappedBy = "student")
-    private Set<CourseInstructorStudent> courseInstructorStudent = new HashSet<CourseInstructorStudent>();
+    private Set<CourseInstructorStudent> courseInstructorStudent = new HashSet<>();
 	
 	public Set<CourseInstructorStudent> getCourseInstructorStudent() {
 		return courseInstructorStudent;
@@ -57,9 +59,6 @@ public class Student {
 	public void setCourseInstructorStudent(Set<CourseInstructorStudent> courseInstructorStudent) {
 		this.courseInstructorStudent = courseInstructorStudent;
 	}
-
-	@ManyToMany(mappedBy="students")
-	private Set<Course> courses = new HashSet<>();
 
 	public BigInteger getId() {
 		return id;
@@ -133,12 +132,12 @@ public class Student {
 		this.syllabus = syllabus;
 	}
 
-	public Set<Course> getCourses() {
-		return courses;
+	public Set<CourseStudent> getCourseStudent() {
+		return courseStudents;
 	}
 
-	public void setCourses(Set<Course> courses) {
-		this.courses = courses;
+	public void setCourses(Set<CourseStudent> courseStudents) {
+		this.courseStudents = courseStudents;
 	}
 	
 

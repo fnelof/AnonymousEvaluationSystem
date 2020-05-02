@@ -34,13 +34,12 @@ public class Course {
 	
 	@Column(name="semester")
 	private String semester;
-	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="courses_students",
-				joinColumns = {@JoinColumn(name="course_id")},
-				inverseJoinColumns = {@JoinColumn(name="student_id")}
-			)
-	Set<Student> students = new HashSet<>();
+
+	@Column(name = "attendance_prerequisite")
+	private int attendancePrerequisite;
+
+	@OneToMany(mappedBy="course")
+	Set<CourseStudent> courseStudents = new HashSet<>();
 	
 	@OneToMany(mappedBy="ticketStringValue")
     private Set<Ticket> tickets;
@@ -108,13 +107,13 @@ public class Course {
 	}
 
 
-	public Set<Student> getStudents() {
-		return students;
+	public Set<CourseStudent> getCourseStudents() {
+		return courseStudents;
 	}
 
 
-	public void setStudents(Set<Student> students) {
-		this.students = students;
+	public void setCourseStudents(Set<CourseStudent> courseStudents) {
+		this.courseStudents = courseStudents;
 	}
 
 

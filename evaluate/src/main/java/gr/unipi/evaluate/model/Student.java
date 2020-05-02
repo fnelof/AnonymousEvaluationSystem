@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -49,9 +48,9 @@ public class Student {
 	@ManyToOne
 	@JoinColumn(name="syllabus_id")
 	private Syllabus syllabus;
-	
-	@ManyToMany(mappedBy="students")
-	private Set<Course> courses = new HashSet<>();
+
+	@OneToMany(mappedBy="student")
+	private Set<CourseStudent> courseStudents = new HashSet<>();
 
 	public BigInteger getId() {
 		return id;
@@ -133,12 +132,12 @@ public class Student {
 		this.syllabus = syllabus;
 	}
 
-	public Set<Course> getCourses() {
-		return courses;
+	public Set<CourseStudent> getCourseStudents() {
+		return courseStudents;
 	}
 
-	public void setCourses(Set<Course> courses) {
-		this.courses = courses;
+	public void setCourseStudents(Set<CourseStudent> courseStudents) {
+		this.courseStudents = courseStudents;
 	}
 	
 
