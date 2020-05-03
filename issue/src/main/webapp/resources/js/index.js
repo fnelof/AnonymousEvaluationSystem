@@ -1,7 +1,6 @@
 
 $(document).ready(function() {
 
-	$("#error").hide();
 	//include csrf token on request headers
 	$.ajaxSetup({
 		beforeSend: function(xhr) {
@@ -12,6 +11,43 @@ $(document).ready(function() {
 	var crypto = window.crypto || window.msCrypto;
 	var m,t,n,e,randomNumber,blindSignature;
 
+    $("#error").hide();
+    $("#publicKey").hide();
+    $("#privateKey").hide();
+
+    window.crypto.subtle.generateKey({
+			name: "RSASSA-PKCS1-v1_5",
+			modulusLength: 2048, //can be 1024, 2048, or 4096
+			publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+			hash: {name: "SHA-256"}, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
+		},
+		true, //whether the key is extractable (i.e. can be used in exportKey)
+		["sign", "verify"] //can be any combination of "sign" and "verify"
+	)
+		.then(function(key) {
+
+			// For Demo Purpos Only Exported in JWK format
+			window.crypto.subtle.exportKey("jwk", key.publicKey).then(
+				function(keydata) {
+					var publicKeyhold = keydata;
+					var publicKeyJson = JSON.stringify(publicKeyhold);
+					$("#publicKey").append(publicKeyJson);
+					//document.getElementById("rsapublic").value = publicKeyJson;
+				}
+			);
+
+			window.crypto.subtle.exportKey("jwk", key.privateKey).then(
+				function(keydata) {
+					var privateKeyhold = keydata;
+					var privateKeyJson = JSON.stringify(privateKeyhold);
+					$("#privateKey").append(privateKeyJson);
+					//document.getElementById("rsaprivate").value = privateKeyJson;
+				}
+			);
+		})
+		.catch(function(err) {
+			console.error(err);
+		});
 	var dictionary = [];
 	var courseList = [];
 	var instructorList  = [];

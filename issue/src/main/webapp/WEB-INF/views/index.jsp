@@ -52,6 +52,8 @@
 	</div>
 	
 	<div class="result alert alert-success" id="result"></div>
+	<div class="key alert alert-light" id="publicKey"></div>
+	<div class="key alert alert-light" id="privateKey"></div>
 	<div class="alert alert-danger" role="alert" id="error"></div>
 	<div id="alertBox" class="modal fade">
 		<div class="modal-dialog">
