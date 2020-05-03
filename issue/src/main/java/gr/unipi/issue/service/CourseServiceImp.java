@@ -59,6 +59,7 @@ public class CourseServiceImp implements CourseService {
 				instructorList.put(instructor);
 			}
 			course.put(Constants.INSTRUCTOR_LIST, instructorList);
+			course.put(Constants.NUMBER_OF_LECTURES,c.getNumberOfLectures());
 			courses.put(course);
 		}
 		
