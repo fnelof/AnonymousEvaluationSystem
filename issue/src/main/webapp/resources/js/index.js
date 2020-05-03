@@ -10,6 +10,8 @@ $(document).ready(function() {
 
 	var crypto = window.crypto || window.msCrypto;
 	var m,t,n,e,randomNumber,blindSignature;
+	var numberOfLectures;
+	var ticketChain = [];
 
     $("#error").hide();
     $("#publicKey").hide();
@@ -58,7 +60,7 @@ $(document).ready(function() {
 	});
 	
 	if(!crypto.subtle){
-	    alert("Cryptography API not Supported");
+	    $("#error").append("Cryptography API not Supported.Please use a difference browser.");
 	}
 	
 	// get the courses the user can issue a ticket
@@ -85,8 +87,7 @@ $(document).ready(function() {
 		var message = $("#message").val();
 		
 		// t = h(M)
-		sha256(message).then(function(digest) {
-
+		sha256Chain(message,numberOfLectures).then(function(digest) {
 			t = digest;
 			$("#hash").text("(SHA256(m)): " + digest);
 		
@@ -168,6 +169,7 @@ $(document).ready(function() {
 		$.each(courseList,function(index,value){
 			if(value["id"]===course_id){
 				instructorList = value["instructorList"];
+				numberOfLectures = value["numberOfLectures"];
 			}
 		});
 		$("#instructorDropdownMenu").empty();
@@ -190,16 +192,11 @@ $(document).ready(function() {
 	
 	
 	function generateM(){
-		var message = "";
-		for(var i=0;i<5;i++){
-            var r = getRandomInt(0,dictionary.length);
-			var word = dictionary[r].replace(/"/g,"");
-			word = word.charAt(0).toUpperCase() +word.slice(1);
-			message = message + word;
-			
-		}
+		var message = $("#publicKey").text();
+		sha256(message).then(function(digest){
+			t = digest;
+		});
 		return message;
-		
 	}
 	function sha256(str) {
 		  // We transform the string into an arraybuffer.
@@ -208,6 +205,20 @@ $(document).ready(function() {
 		    return hex(hash);
 		  });
 	}
+	function sha256Chain(str,times){
+		var promise = new Promise(function (resolve,reject){
+			if(times == 0){
+				resolve(str);
+			}else {
+				sha256(str).then(function (digest) {
+					ticketChain.push(digest);
+					resolve(sha256Chain(digest, times - 1));
+				});
+			}
+		});
+		return promise;
+	}
+
 	function hex(buffer) {
 		  var hexCodes = [];
 		  var view = new DataView(buffer);
