@@ -38,6 +38,9 @@ public class Course {
 	@Column(name = "attendance_prerequisite")
 	private int attendancePrerequisite;
 
+	@Column(name = "number_of_lectures")
+	private int numberOfLectures;
+
 	@OneToMany(mappedBy="course")
 	Set<CourseStudent> courseStudents = new HashSet<>();
 	
@@ -105,6 +108,10 @@ public class Course {
 	public int getAttendancePrerequisite() { return attendancePrerequisite;	}
 
 	public void setAttendancePrerequisite(int attendancePrerequisite) {	this.attendancePrerequisite = attendancePrerequisite; }
+
+    public int getNumberOfLectures() { return numberOfLectures; }
+
+    public void setNumberOfLectures(int numberOfLectures) { this.numberOfLectures = numberOfLectures; }
 
 	public Set<CourseStudent> getCourseStudents() { return courseStudents; }
 
