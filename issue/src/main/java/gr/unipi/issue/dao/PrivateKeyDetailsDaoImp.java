@@ -33,15 +33,15 @@ public class PrivateKeyDetailsDaoImp implements PrivateKeyDetailsDao{
 	 */
 	@Override
 	public PrivateKeyDetails getPrivateKeyDetails() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException {
-		FileInputStream is = new FileInputStream(keystorePath);
+		RSAPrivateKey key;
+		try(FileInputStream is = new FileInputStream(keystorePath)){
+			KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+			keystore.load(is,keystorePassword.toCharArray());
 
-		KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-		keystore.load(is,keystorePassword.toCharArray());
+			key = (RSAPrivateKey) keystore.getKey(alias, certificatePassword.toCharArray());
+		}
 
-		RSAPrivateKey key = (RSAPrivateKey) keystore.getKey(alias, certificatePassword.toCharArray());
-		PrivateKeyDetails privateKey = new PrivateKeyDetails(key.getModulus(),key.getPrivateExponent());
-
-		return privateKey;
+		return new PrivateKeyDetails(key.getModulus(),key.getPrivateExponent());
 	}
 
 }

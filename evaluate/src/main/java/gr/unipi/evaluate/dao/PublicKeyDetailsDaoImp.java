@@ -1,7 +1,7 @@
 package gr.unipi.evaluate.dao;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -24,15 +24,16 @@ public class PublicKeyDetailsDaoImp implements PublicKeyDetailsDao{
 	*/
 	
 	@Override
-	public PublicKeyDetails getPublicKeyDetails() throws FileNotFoundException, CertificateException {
+	public PublicKeyDetails getPublicKeyDetails() throws IOException, CertificateException {
+		RSAPublicKey pk;
 
-		FileInputStream fin = new FileInputStream(publicKeyPath);
-		CertificateFactory f = CertificateFactory.getInstance("X.509");
-		X509Certificate certificate = (X509Certificate)f.generateCertificate(fin);
-		RSAPublicKey pk = (RSAPublicKey) certificate.getPublicKey();		
-		
-		PublicKeyDetails publicKey = new PublicKeyDetails(pk.getModulus(),pk.getPublicExponent());
-		return publicKey;
+		try(FileInputStream fin = new FileInputStream(publicKeyPath)) {
+			CertificateFactory f = CertificateFactory.getInstance("X.509");
+			X509Certificate certificate = (X509Certificate) f.generateCertificate(fin);
+			pk = (RSAPublicKey) certificate.getPublicKey();
+		}
+
+		return new PublicKeyDetails(pk.getModulus(), pk.getPublicExponent());
 	}
 
 }

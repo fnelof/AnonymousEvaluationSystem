@@ -1,6 +1,6 @@
 package gr.unipi.evaluate.service;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -62,7 +62,7 @@ public class TicketServiceImp implements TicketService{
 	*/
 	@Override
 	public boolean isValid(String msg, BigInteger signedTicket) throws NoSuchAlgorithmException,
-			FileNotFoundException, CertificateException {
+			IOException, CertificateException {
 		logger.info("Start isValid, message: {}, signedTicket: {}", msg, signedTicket);
 		BigInteger ticket = generateTicket(msg);
 		PublicKeyDetails publicKey = publicKeyDao.getPublicKeyDetails();
@@ -80,11 +80,10 @@ public class TicketServiceImp implements TicketService{
 	public boolean isUsed(String ticket) {
 		logger.info("Start isUsed, ticket: {}", ticket);
 		try {
-
 			ticketDao.isUsed(ticket);
 			logger.info("End isUsed, result: {}, ticket: {}","true", ticket);
 		}catch(NoResultException ex) {
-			logger.info("End isUsed, result: {}, ticket: {}","false", ticket);
+			logger.info("End isUsed, no results for ticket: {}", ticket);
 			return false;
 		}catch(Exception ex){
 			logger.error("An unkown error occured on isUsed", ex);
