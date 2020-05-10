@@ -2,6 +2,8 @@ package gr.unipi.issue.controller;
 
 import java.io.IOException;
 
+import java.math.BigInteger;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 
@@ -11,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import gr.unipi.issue.model.PublicKeyDetails;
@@ -52,4 +55,31 @@ public class PublicKeyController {
 		}
 		
 	}
+
+	@GetMapping("/getPublicKeyOfCourse")
+	public String getPublicKeyOfCourse(@RequestParam BigInteger courseId){
+		logger.info("Start getPublicKeyOfCourse for courseId, {}",courseId);
+		JSONObject response =  new JSONObject();
+
+		try {
+			PublicKeyDetails publicKey = publicKeyService.getPublicKeyOfCourse(courseId);
+			response.put(Constants.MODULUS, publicKey.getModulus().toString());
+			response.put(Constants.EXPONENT, publicKey.getExponent().toString());
+			logger.info("End sendPublicKey");
+			return response.toString();
+		}catch(KeyStoreException ex){
+			logger.error("There was an error using the keystore for courses: ",ex);
+			response.put(Constants.ERROR_RESPONSE_OBJECT,"Something went wrong. Please contact the administrator for further details");
+			return response.toString();
+		}catch(CertificateException | IOException ex) {
+			logger.error("There was an error using the certificate to get the public key: ",ex);
+			response.put(Constants.ERROR_RESPONSE_OBJECT, "Something went wrong on our end. Please contact the administrator for further details");
+			return response.toString();
+		}catch(NoSuchAlgorithmException ex){
+			logger.error("No such algorithm exception when getting the public key details: ", ex);
+			response.put(Constants.ERROR_RESPONSE_OBJECT,"Something went wrong on our end. Please contact the administrator for further details");
+			return response.toString();
+		}
+	}
+
 }

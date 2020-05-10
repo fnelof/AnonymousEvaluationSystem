@@ -2,6 +2,8 @@ package gr.unipi.issue.service;
 
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 
@@ -29,6 +31,15 @@ public class PublicKeyServiceImp implements PublicKeyService{
 
 		logger.info("End getPublicKey");
 		return publicKey;
+	}
+
+	@Override
+	public PublicKeyDetails getPublicKeyOfCourse(BigInteger courseId) throws CertificateException, IOException, NoSuchAlgorithmException, KeyStoreException {
+		logger.info("Start getPublicKeyOfCourse, courseId: {}", courseId);
+		PublicKeyDetails publicKeyDetails = publicKeyDao.getPublicKeyDetailsOfCourse(courseId);
+
+		logger.info("End getPublicKeyOfCourse, courseId: {}", courseId);
+		return publicKeyDetails;
 	}
 
 }

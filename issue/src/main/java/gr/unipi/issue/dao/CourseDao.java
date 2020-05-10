@@ -6,5 +6,6 @@ import java.util.List;
 import gr.unipi.issue.model.Course;
 
 public interface CourseDao {
-	public List<Course> getNonIssuedCoursesFromUid(BigInteger uid);
+	List<Course> getNonIssuedCoursesFromUid(BigInteger uid);
+	Course getCourseFromId(BigInteger id);
 }

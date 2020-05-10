@@ -35,4 +35,15 @@ public class CourseDaoImp implements CourseDao{
 		return courseList;
 	}
 
+	public Course getCourseFromId(BigInteger id){
+		logger.info("Start getCourseFromId: id {}", id);
+		Session session = sessionFactory.getCurrentSession();
+
+		Query query =  session.createQuery("from Course where id=:courseId");
+		query.setParameter("courseId", id);
+		Course course= (Course) query.getSingleResult();
+		logger.info("End getCourseFromId: id {}", id);
+		return course;
+	}
+
 }
