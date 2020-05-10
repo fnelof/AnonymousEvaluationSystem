@@ -2,10 +2,7 @@ package gr.unipi.issue.controller;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 
 import gr.unipi.issue.common.Constants;
 import org.apache.logging.log4j.LogManager;
@@ -35,8 +32,9 @@ public class TicketController {
 		JSONObject response = new JSONObject();
 
 		try {
-			signedBlindedTicket = privateKeyService.signMessage(blindedTicket);
-						
+
+			signedBlindedTicket = privateKeyService.signMessage(blindedTicket, courseId);
+
 			response.put(Constants.BLIND_SIGNATURE, signedBlindedTicket.toString());
 			logger.info("End getTicket");
 			return response.toString();
@@ -44,8 +42,7 @@ public class TicketController {
 		} catch(NoSuchAlgorithmException ex){
 			logger.error("No such algorithm exception in getTicket", ex);
 
-		}catch (UnrecoverableKeyException | KeyStoreException | CertificateException
-				| IOException ex) {
+		}catch (IOException ex) {
 
 			logger.error("There was something wrong with the certificate in getTicket: ", ex);
 		}catch(Exception ex){

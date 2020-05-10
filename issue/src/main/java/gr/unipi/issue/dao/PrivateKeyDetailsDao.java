@@ -1,6 +1,7 @@
 package gr.unipi.issue.dao;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
@@ -13,4 +14,6 @@ import gr.unipi.issue.model.PrivateKeyDetails;
 @Repository
 public interface PrivateKeyDetailsDao {
 	PrivateKeyDetails getPrivateKeyDetails() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException;
+
+    PrivateKeyDetails getPrivateKeyDetailsOfCourse(BigInteger courseId) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException;
 }

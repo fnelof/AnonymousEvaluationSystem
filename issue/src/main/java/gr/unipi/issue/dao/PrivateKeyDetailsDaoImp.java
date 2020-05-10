@@ -2,6 +2,7 @@ package gr.unipi.issue.dao;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -27,6 +28,12 @@ public class PrivateKeyDetailsDaoImp implements PrivateKeyDetailsDao{
 
 	@Value("${keystore.certificate.password}")
 	String certificatePassword;
+
+	@Value("${course.keystore.filepath}")
+	String courseKeystorePath;
+
+	@Value("${course.keystore.password}")
+	String password;
 	/*
 	 *  Fetches the private key details, modulus n and private exponent d from the keystore
 	 *  These are needed for the signature of the blinded ticket
@@ -44,4 +51,17 @@ public class PrivateKeyDetailsDaoImp implements PrivateKeyDetailsDao{
 		return new PrivateKeyDetails(key.getModulus(),key.getPrivateExponent());
 	}
 
+	@Override
+	public PrivateKeyDetails getPrivateKeyDetailsOfCourse(BigInteger courseId) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException {
+		RSAPrivateKey key;
+		try(FileInputStream is = new FileInputStream(courseKeystorePath)){
+			KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+			keystore.load(is,keystorePassword.toCharArray());
+
+			key = (RSAPrivateKey) keystore.getKey(courseId.toString(), certificatePassword.toCharArray());
+		}
+
+		return new PrivateKeyDetails(key.getModulus(),key.getPrivateExponent());
+
+	}
 }

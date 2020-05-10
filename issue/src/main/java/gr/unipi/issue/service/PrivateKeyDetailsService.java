@@ -10,4 +10,7 @@ import java.security.cert.CertificateException;
 
 public interface PrivateKeyDetailsService {
 	public BigInteger signMessage(BigInteger message) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException;
+	BigInteger signMessage(BigInteger message, BigInteger courseId) throws
+			UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException;
+
 }
