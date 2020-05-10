@@ -28,8 +28,8 @@
 				<h3>Issue a ticket</h3>
 			</div>
 			<div class="modal-body">
-				<input class="form-control" type="text" placeholder="Message (m)" name="message" id="message" readOnly>
-				<button class="btn btn-info btn-block" id="generateMessageButton">Generate message (m)</button><br>
+				<input class="form-control" type="text" placeholder="Ticket (t)" name="message" id="message" readOnly>
+				<button class="btn btn-info btn-block" id="generateMessageButton">Generate ticket (t)</button><br>
 				<div class="dropdown">
   					<button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="courseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     					Course
