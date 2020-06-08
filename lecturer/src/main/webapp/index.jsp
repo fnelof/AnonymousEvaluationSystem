@@ -26,6 +26,23 @@
             <button class="btn btn-success col-sm-2" type="submit" role="submit">Filter</button>
         </div>
     </form>
+
+    <form id="selectOption">
+        <table class="table table-striped table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Department</th>
+                <th scope="col">Syllabus</th>
+                <th scope="col">Course</th>
+                <th scope="col">Instructor</th>
+            </tr>
+            </thead>
+            <tbody id="tableBody">
+
+            </tbody>
+        </table>
+    </form>
 </div>
 
 </body>

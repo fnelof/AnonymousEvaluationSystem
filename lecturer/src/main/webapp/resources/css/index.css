@@ -5,3 +5,11 @@ body{
 h2{
 	margin-bottom: 60px;
 }
+
+.table {
+	margin-top: 50px
+}
+
+th,td{
+	text-align: center;
+}
