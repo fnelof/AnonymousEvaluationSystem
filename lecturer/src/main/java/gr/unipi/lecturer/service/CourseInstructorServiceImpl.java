@@ -21,8 +21,8 @@ public class CourseInstructorServiceImpl implements CourseInstructorService {
 
 
     @Transactional
-    public List<CourseInstructorDTO> courseInstructorPagination(String courseName, String instructorName, int p1, int p2) {
-        Pageable pageable = PageRequest.of(0, 2);
+    public List<CourseInstructorDTO> courseInstructorPagination(String courseName, String instructorName, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         Page<CourseInstructor> courseInstructorList = courseInstructorRepository.findAll(pageable);
         return createCourseInstructorDTO(courseInstructorList.getContent());
     }
