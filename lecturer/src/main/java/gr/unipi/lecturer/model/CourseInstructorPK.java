@@ -15,4 +15,19 @@ public class CourseInstructorPK implements Serializable {
     @Column(name="instructor_id")
     private BigInteger instructorId;
 
+    public BigInteger getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(BigInteger courseId) {
+        this.courseId = courseId;
+    }
+
+    public BigInteger getInstructorId() {
+        return instructorId;
+    }
+
+    public void setInstructorId(BigInteger instructorId) {
+        this.instructorId = instructorId;
+    }
 }

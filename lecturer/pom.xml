@@ -15,8 +15,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>10</maven.compiler.source>
+    <maven.compiler.target>10</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -163,6 +163,16 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.10.0.pr3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-hibernate5</artifactId>
+      <version>2.11.0</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -181,6 +191,11 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
+          <configuration>
+            <!-- specify current java version here: -->
+            <source>10</source>
+            <target>10</target> <!-- or edit these in your properties -->
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
