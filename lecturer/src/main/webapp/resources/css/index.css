@@ -1,6 +1,7 @@
 body{
-	background-color:#849CC5;
+	background-color:#003366;
 	text-align:center;
+    color: white;
 }
 h2{
 	margin-bottom: 60px;
@@ -12,4 +13,8 @@ h2{
 
 th,td{
 	text-align: center;
+}
+
+.hidden {
+	visibility: hidden;
 }
