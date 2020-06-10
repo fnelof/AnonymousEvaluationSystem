@@ -27,7 +27,7 @@
         </div>
     </form>
 
-    <form id="selectOption">
+    <form id="lecturerGrid">
         <table class="table table-striped table-dark">
             <thead>
             <tr>
@@ -38,11 +38,15 @@
                 <th scope="col">Instructor</th>
             </tr>
             </thead>
-            <tbody id="tableBody">
-
-            </tbody>
+            <tbody id="tableBody"></tbody>
         </table>
     </form>
+    <div id="attendanceChain">
+        <div class="form-group" id="attendanceForm">
+            <textarea class="form-control" rows="5" id="chainJson"></textarea>
+            <div id="attendance"></div>
+        </div>
+    </div>
 </div>
 
 </body>

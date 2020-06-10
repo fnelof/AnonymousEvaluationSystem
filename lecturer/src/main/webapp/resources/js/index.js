@@ -1,19 +1,22 @@
 
 $(document).ready(function() {
-
-	var data = {
+	$("#attendanceChain").hide();
+	var initialPaginationData = {
 		"courseName": "",
 		"instructorName": "",
 		"p1": 0,
 		"p2": 5
 	};
 	var tableData = [];
+	var totalLectures = 0;
+	var courseId;
+	var instructorId;
 
 	$.ajax({
 		url: "getCourseInstructorPagination",
 		type: "get",
 		datatype: "json",
-		data: data,
+		data: initialPaginationData,
 		success: function(result){
 			tableData = result;
 			tableData.forEach(function(item,index) {
@@ -40,10 +43,24 @@ $(document).ready(function() {
 
 	$(document).on("click",".goToAttendanceButton",function(){
 		var index = $(this).val();
-		var courseId = $("#course" + index).text();
-		var instructorId = $("#instructor" + index).text();
+		courseId = $("#course" + index).text();
+		instructorId = $("#instructor" + index).text();
+		$("#lecturerGrid").hide();
+
 		if(courseId && instructorId){
-			window.location = '/createAttendanceForm?instructor=' + instructorId + '&course=' + courseId;
+			var courseTotalLecturesRequestBody = {
+				"courseId": courseId
+			};
+
+			$.ajax({
+				url: "getCourseTotalLectures",
+				type: "get",
+				datatype: "json",
+				data: courseTotalLecturesRequestBody,
+				success: function(result){
+					totalLectures = result;
+				}
+			});
 		}
 	});
 
