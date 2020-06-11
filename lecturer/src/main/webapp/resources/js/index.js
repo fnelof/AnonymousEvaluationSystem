@@ -45,7 +45,6 @@ $(document).ready(function() {
 		var index = $(this).val();
 		courseId = $("#course" + index).text();
 		instructorId = $("#instructor" + index).text();
-		$("#lecturerGrid").hide();
 
 		if(courseId && instructorId){
 			var courseTotalLecturesRequestBody = {
@@ -59,6 +58,24 @@ $(document).ready(function() {
 				data: courseTotalLecturesRequestBody,
 				success: function(result){
 					totalLectures = result;
+					if(totalLectures){
+						$("#attendanceChain").show();
+						$("#form").hide()
+						$("#lecturerGrid").hide();
+                        $("#attendance").empty();
+                        for(var i=0;i<totalLectures;i++){
+                            $("#attendance").append("<div class=\"row lectureRow\">" +
+                                "<label class=\"form-check-label hashLabel col-sm-2\">\n" +
+                                "     <input type=\"checkbox\" class=\"form-check-input\" value=\"lecture" + i + "\">Lecture " + (i + 1) + "\n" +
+                                "</label>\n" +
+                                "<input type=\"text\" class=\"form-control col-sm-10\">\n" +
+                                "</div>\n"
+                            )
+
+                        }
+					}
+
+
 				}
 			});
 		}

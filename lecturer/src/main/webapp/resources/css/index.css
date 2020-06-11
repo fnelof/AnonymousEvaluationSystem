@@ -18,3 +18,12 @@ th,td{
 .hidden {
 	visibility: hidden;
 }
+
+.hashLabel {
+	text-align: left;
+	margin-top: 6px;
+}
+
+.lectureRow {
+	margin-top: 13px;
+}
