@@ -76,11 +76,15 @@ $(document).ready(function() {
 					  $("#result").hide();
 					  blindSignature = new BigInteger(result["blindSignature"]);
 					  var signedTicket = unblind(blindSignature,randomNumber);
+					  var signedTicketHex = dec2hex(signedTicket.toLocaleString());
+					  var ticketObject = Object.assign({}, ticketChain);
+					  ticketObject.initialTicket = m;
+					  ticketObject.EAT = signedTicketHex;
+
 					  if(verify(signedTicket)) {
 						  $("#result").html("<strong>Success!</strong><hr>" +
-							  "<strong>Initial Ticket</strong><br>" + m + "<br>" +
-							  "<strong>Signed ticket</strong><br>" +
-							  "<input id='signedTicket' rows='1' width='100%' value='" + signedTicket + "'/>");
+							  "<strong>Use the following hash chain to proceed with your evaluation</strong><br>" +
+							  "<textarea class='form-control' id='signedTicket' rows='10'>" + JSON.stringify(ticketObject) + "</textarea>");
 						  $("#result").toggle();
 					  }else {
 					  	$("#error").html("<strong>SignedTicket was not successfully verified as a valid one, contact the administrators for more details</strong>");
@@ -279,6 +283,46 @@ $(document).ready(function() {
         max = Math.floor(max);
         return Math.floor(r * (max - min + 1)) + min;
     }
+
+	function hexToBn(hex) {
+		if (hex.length % 2) {
+			hex = '0' + hex;
+		}
+
+		var highbyte = parseInt(hex.slice(0, 2), 16)
+		var bn = BigInt('0x' + hex);
+
+		if (0x80 & highbyte) {
+			// bn = ~bn; WRONG in JS (would work in other languages)
+
+			// manually perform two's compliment (flip bits, add one)
+			// (because JS binary operators are incorrect for negatives)
+			bn = BigInt('0b' + bn.toString(2).split('').map(function (i) {
+				return '0' === i ? 1 : 0
+			}).join('')) + BigInt(1);
+			// add the sign character to output string (bytes are unaffected)
+			bn = -bn;
+		}
+
+		return bn;
+	}
+
+	function dec2hex(str){ // .toString(16) only works up to 2^53
+		var dec = str.toString().split(''), sum = [], hex = [], i, s
+		while(dec.length){
+			s = 1 * dec.shift()
+			for(i = 0; s || i < sum.length; i++){
+				s += (sum[i] || 0) * 10
+				sum[i] = s % 16
+				s = (s - sum[i]) / 16
+			}
+		}
+		while(sum.length){
+			hex.push(sum.pop().toString(16))
+		}
+		return hex.join('')
+	}
+
 	$(document).on('click','.dropdown-menu li a',function(){
 		$(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
 	});
