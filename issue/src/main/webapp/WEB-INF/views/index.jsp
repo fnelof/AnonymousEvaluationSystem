@@ -62,7 +62,7 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-					Signed ticket copied to clipboard!
+					Hash chain copied to clipboard!
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary btn-block" data-dismiss="modal">OK</button>
