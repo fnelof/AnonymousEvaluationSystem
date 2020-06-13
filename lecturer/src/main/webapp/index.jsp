@@ -44,8 +44,8 @@
     <div id="attendanceChain">
         <div class="form-group" id="attendanceForm">
             <textarea class="form-control" rows="5" id="chainJson"></textarea>
-            <button class="btn btn-primary float-right">Generate Hash Chain</button><br><br>
-            <form id="attendance"></form>
+            <button class="btn btn-primary float-right" id="populateHashChain">Populate Lectures</button><br><br>
+            <form id="attendanceHashChain"></form>
         </div>
     </div>
 </div>
