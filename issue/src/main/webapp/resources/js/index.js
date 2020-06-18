@@ -284,28 +284,6 @@ $(document).ready(function() {
         return Math.floor(r * (max - min + 1)) + min;
     }
 
-	function hexToBn(hex) {
-		if (hex.length % 2) {
-			hex = '0' + hex;
-		}
-
-		var highbyte = parseInt(hex.slice(0, 2), 16)
-		var bn = BigInt('0x' + hex);
-
-		if (0x80 & highbyte) {
-			// bn = ~bn; WRONG in JS (would work in other languages)
-
-			// manually perform two's compliment (flip bits, add one)
-			// (because JS binary operators are incorrect for negatives)
-			bn = BigInt('0b' + bn.toString(2).split('').map(function (i) {
-				return '0' === i ? 1 : 0
-			}).join('')) + BigInt(1);
-			// add the sign character to output string (bytes are unaffected)
-			bn = -bn;
-		}
-
-		return bn;
-	}
 
 	function dec2hex(str){ // .toString(16) only works up to 2^53
 		var dec = str.toString().split(''), sum = [], hex = [], i, s

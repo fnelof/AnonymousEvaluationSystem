@@ -5,6 +5,8 @@ import gr.unipi.lecturer.interceptor.LoggerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.*;
 
@@ -13,8 +15,10 @@ import org.springframework.web.servlet.config.annotation.*;
 @EnableJpaRepositories(basePackages="gr.unipi.lecturer.repository")
 @ComponentScan(basePackages = { "gr.unipi.lecturer.controller",
 		"gr.unipi.lecturer.service",
-        "gr.unipi.lecturer.interceptor"
+        "gr.unipi.lecturer.interceptor",
+        "gr.unipi.lecturer.dao"
 })
+@PropertySource("classpath:lecturer.properties")
 public class WebConfig implements WebMvcConfigurer {
 
   @Override
@@ -41,4 +45,8 @@ public class WebConfig implements WebMvcConfigurer {
       return new LoggerInterceptor();
   }
 
+  @Bean
+  public static PropertySourcesPlaceholderConfigurer placeholderConfigurer(){
+    return new PropertySourcesPlaceholderConfigurer();
+  }
 }

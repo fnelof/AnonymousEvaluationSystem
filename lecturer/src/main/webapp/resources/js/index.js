@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
 	$("#attendanceChain").hide();
+	$("#signatureButton").hide();
 	var initialPaginationData = {
 		"courseName": "",
 		"instructorName": "",
@@ -8,10 +9,11 @@ $(document).ready(function() {
 		"p2": 5
 	};
 	var tableData = [];
-	var totalLectures = 0;
+    var selectedLectures = [];
+    var ticketChain = [];
+    var totalLectures = 0;
 	var courseId;
 	var instructorId;
-
 	$.ajax({
 		url: "getCourseInstructorPagination",
 		type: "get",
@@ -60,13 +62,14 @@ $(document).ready(function() {
 					totalLectures = result;
 					if(totalLectures){
 						$("#attendanceChain").show();
+						$("#signatureButton").show()
 						$("#form").hide()
 						$("#lecturerGrid").hide();
                         $("#attendance").empty();
                         for(var i=0;i<totalLectures;i++){
                             $("#attendanceHashChain").append("<div class=\"row lectureRow\">" +
                                 "<label class=\"form-check-label hashLabel col-sm-2\">\n" +
-                                "     <input type=\"checkbox\" class=\"form-check-input\" id = \"lecture" + i + "\" value=\"lecture" + i + "\">Lecture " + (i + 1) + "\n" +
+                                "     <input type=\"checkbox\" class=\"form-check-input\" id = \"lecture" + i + "\" name=\"lecture\" value=\"" + i + "\">Lecture " + (i + 1) + "\n" +
                                 "</label>\n" +
                                 "<input type=\"text\" class=\"form-control col-sm-10\" id=\"lectureHash"+i+"\">\n" +
                                 "</div>\n"
@@ -83,11 +86,78 @@ $(document).ready(function() {
 
 	$(document).on('click', "#populateHashChain" ,function(){
 
-		var ticketObject = JSON.parse($("#chainJson").val());
+		ticketChain = JSON.parse($("#chainJson").val());
 		for(var i = 0; i <  totalLectures; i++){
 			var selector = "#lectureHash" + i;
-			$(selector).val(ticketObject[i.toString()]);
+			$(selector).val(ticketChain[i.toString()]);
 		}
 	});
 
+	$(document).on('click',"#signatureButton", function() {
+		selectedLectures = [];
+		$.each($("input[name='lecture']:checked"), function () {
+			selectedLectures.push($(this).val());
+		});
+		console.log(selectedLectures);
+		var ticketChainNumbers = [];
+		for (var key in ticketChain) {
+			ticketChainNumbers.push(hexToBn('0' + ticketChain[key]).toString());
+		}
+
+		$.each(selectedLectures, function (i, item) {
+			var getLecturerSignaturesData = {
+				courseId: courseId,
+				instructorId: instructorId,
+				ticket: ticketChainNumbers[item]
+			};
+
+			$.ajax({
+				url: "signLectures",
+				type: "get",
+				datatype: "json",
+				data: getLecturerSignaturesData,
+				success: function (result) {
+					console.log(i);
+					ticketChain[item] = dec2hex(result);
+					console.log(ticketChain);
+				}
+			});
+
+		});
+	});
+
+    function hexToBn(hex) {
+        if (hex.length % 2) {
+            hex = '0' + hex;
+        }
+
+        var highbyte = parseInt(hex.slice(0, 2), 16)
+        var bn = BigInt('0x' + hex);
+
+        if (0x80 & highbyte) {
+
+            bn = BigInt('0b' + bn.toString(2).split('').map(function (i) {
+                return '0' === i ? 1 : 0
+            }).join('')) + BigInt(1);
+            bn = -bn;
+        }
+
+        return bn;
+    }
+
+    function dec2hex(str){
+        var dec = str.toString().split(''), sum = [], hex = [], i, s
+        while(dec.length){
+            s = 1 * dec.shift()
+            for(i = 0; s || i < sum.length; i++){
+                s += (sum[i] || 0) * 10
+                sum[i] = s % 16
+                s = (s - sum[i]) / 16
+            }
+        }
+        while(sum.length){
+            hex.push(sum.pop().toString(16))
+        }
+        return hex.join('')
+    }
 });
