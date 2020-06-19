@@ -31,8 +31,7 @@
 			</div>
 			
 			<div class="modal-body">
-				<input class="form-control" type="text" placeholder="Type your message (m)" name="message" id="message">
-				<input class="form-control" type="text" placeholder="Enter your signed ticket" name="signedTicket" id="signedTicket">	
+				<textarea class="form-control" type="text" placeholder="Enter your ticket chain" rows="5" name="message" id="message"></textarea>
 				<div class="dropdown">
   					<button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="departmentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     					Department
