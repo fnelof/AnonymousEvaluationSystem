@@ -1,12 +1,15 @@
 package gr.unipi.evaluate.controller;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import gr.unipi.evaluate.common.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import gr.unipi.evaluate.service.EvaluationService;
@@ -20,20 +23,21 @@ public class EvaluationController {
 	EvaluationService evaluationService;
 
 	
-	// Handles the evaluation request 
+	// Handles the evaluation request
 	@PostMapping(value = "/vote")
-	public String vote(@RequestParam BigInteger courseId,
-			@RequestParam BigInteger instructorId,
-			@RequestParam String message,
-			@RequestParam BigInteger signedTicket,
-			@RequestParam String eval,
-			@RequestParam String comment
-			) {
-		logger.info("Start vote for instructorId: {} - courseId: {}", instructorId, courseId);
+	public String vote(@RequestBody MultiValueMap<String, String> formData) {
+		logger.info("Start vote for instructorId: {} - courseId: {}", formData.get("instructorId"), formData.get("courseId"));
 		try {
-			JSONObject response = evaluationService.submitTicketAndEvaluation(courseId, instructorId, message, signedTicket, eval, comment);
+			BigInteger courseId = new BigInteger(formData.get("courseId").get(0).toString());
+			BigInteger instructorId = new BigInteger(formData.get("instructorId").get(0).toString());
+			List ticketChain = new ArrayList(formData.get("ticketChain[]"));
+			String initialTicket = formData.getFirst("initialTicket");
+			BigInteger EAT = new BigInteger(formData.getFirst("EAT"));
+
+
+			//JSONObject response = evaluationService.submitTicketAndEvaluation(courseId, instructorId, initialTicket, EAT, eval, comment);
 			logger.info("End vote for instructorId: {} - courseId: {}", instructorId, courseId);
-			return response.toString();
+			return "";//response.toString();
 
 		// Handles unknown exceptions and hides them from the user
 		}catch(Exception ex) {

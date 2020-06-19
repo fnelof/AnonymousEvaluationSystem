@@ -154,12 +154,10 @@ $(document).ready(function() {
 	
 	// submit questionnaire
 	
-	$(document).on('click','#voteButton',function(){
-		var m = $("#message").val();
-		var signed_ticket  = $("#signedTicket").val();
-		
-		
-		
+	$(document).on('click','#voteButton',function() {
+		var m = JSON.parse($("#message").val());
+		var ticketChain = getTicketChain(m);
+		m["EAT"] = hexToBn('0' + m["EAT"].toString()).toString();
 		// check if signed ticket is empty
 		if($("#signedTicket").val()===""){
 			$("#error").html("<i class='material-icons'>warning</i><br>Signed ticket cannot be empty");
@@ -167,7 +165,7 @@ $(document).ready(function() {
 		    $('#error').delay(3000).fadeOut('slow');
 		    return;
 		}
-		
+
 		// check if message is empty
 		if($("#message").val()===""){
 			$("#error").html("<i class='material-icons'>warning</i><br>Message cannot be empty");
@@ -175,12 +173,12 @@ $(document).ready(function() {
 		    $('#error').delay(3000).fadeOut('slow');
 		    return;
 		}
-		
+
 		// create evaluation object
 		var evaluation = {};
 		var evalList=[];
 		$("input:checkbox").each(function(){
-			
+
 			if($(this).is(":checked")){
 				var name = parseInt($(this).attr("name"));
 				var v = parseInt($(this).attr("value"));
@@ -193,24 +191,32 @@ $(document).ready(function() {
 		evaluation.voteList = evalList;
 		var comment = $("#comment").val();
 		var data = {
-				"courseId": course_id,
-				"instructorId": instructor_id,
-				"message": m,
-				"signedTicket": signed_ticket,
-				"eval": JSON.stringify(evaluation),
-				"comment": comment
+			"courseId": course_id,
+			"instructorId": instructor_id,
+			"ticketChain": ticketChain,
+			"initialTicket": m["initialTicket"],
+			"EAT": m["EAT"],
+			"eval": JSON.stringify(evaluation),
+			"comment": comment
 		};
-		$.post("vote",data,
-			function(result){
-			result = JSON.parse(result);
-			if(result.hasOwnProperty("success")){
-				$("#success").html("<i class='material-icons'>check box</i><br>" + result.success);
-			    $("#success").show();
-			    $("#success").delay(3000).fadeOut('slow'); 			}
-			if(result.hasOwnProperty("error")){
-				$("#error").html("<i class='material-icons'>warning</i><br>" + result.error);
-			    $("#error").show();
-			    $("#error").delay(3000).fadeOut('slow');    
+
+		$.ajax({
+			type: "post",
+			url: "vote",
+			datatype: "json",
+			data: data,
+			success: function (result) {
+				result = JSON.parse(result);
+				if (result.hasOwnProperty("success")) {
+					$("#success").html("<i class='material-icons'>check box</i><br>" + result.success);
+					$("#success").show();
+					$("#success").delay(3000).fadeOut('slow');
+				}
+				if (result.hasOwnProperty("error")) {
+					$("#error").html("<i class='material-icons'>warning</i><br>" + result.error);
+					$("#error").show();
+					$("#error").delay(3000).fadeOut('slow');
+				}
 			}
 		});
 	});
@@ -243,4 +249,31 @@ $(document).ready(function() {
 	$(".close").click(function(){
 		$("#voteModal").hide();
 	})
+
+	function getTicketChain(obj){
+		var result = [];
+		//Last two values of object are the EAT and initialTicket.
+		for(var i = 0; i < Object.values(obj).length-2;i++){
+			result.push(hexToBn('0'+Object.values(obj)[i]).toString());
+		}
+		return result;
+	}
+
+	function hexToBn(hex) {
+		if (hex.length % 2) {
+			hex = '0' + hex;
+		}
+
+		var highbyte = parseInt(hex.slice(0, 2), 16)
+		var bn = BigInt('0x' + hex);
+
+		if (0x80 & highbyte) {
+
+			bn = BigInt('0b' + bn.toString(2).split('').map(function (i) {
+				return '0' === i ? 1 : 0
+			}).join('')) + BigInt(1);
+			bn = -bn;
+		}
+		return bn;
+	}
 });
