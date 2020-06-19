@@ -22,10 +22,11 @@
 		<input class="btn btn-danger" value="Logout" type="submit">
 		<sec:csrfInput />
 	</form>
-	<div class="modal-dialog">
+	<br>
+	<h2>Issuer</h2>
+	<div class="modal-dialog formModal">
 		<div class="modal-content">
 			<div class="modal-heading">
-				<h3>Issue a ticket</h3>
 			</div>
 			<div class="modal-body">
 				<input class="form-control" type="text" placeholder="Ticket (t)" name="message" id="message" readOnly>

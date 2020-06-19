@@ -1,12 +1,14 @@
 body{
-	background-color:#849CC5;
+	background-color:#003366;
 	text-align:center;
 }
 #logout{
 	float:right;
 }
-.modal-dialog{
-	padding-top:10%;
+
+h2{
+	color: white;
+	padding-bottom: 5%;
 }
 h3{
 	text-align:center;
@@ -18,7 +20,10 @@ input{
 	text-align:center;
 }
 #result{
-	max-width:700px;
+	max-width:1000px;
+}
+strong{
+	padding-right: 74px;
 }
 .dropdown-menu{ 
 	width:100%;

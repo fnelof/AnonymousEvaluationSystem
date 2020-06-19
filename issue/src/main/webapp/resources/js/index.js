@@ -86,6 +86,7 @@ $(document).ready(function() {
 							  "<strong>Use the following hash chain to proceed with your evaluation</strong><br>" +
 							  "<textarea class='form-control' id='signedTicket' rows='10'>" + JSON.stringify(ticketObject) + "</textarea>");
 						  $("#result").toggle();
+						  $(".formModal").hide();
 					  }else {
 					  	$("#error").html("<strong>SignedTicket was not successfully verified as a valid one, contact the administrators for more details</strong>");
 					  	$("#error").show();
