@@ -2,6 +2,8 @@
 $(document).ready(function() {
 	$("#attendanceChain").hide();
 	$("#signatureButton").hide();
+	$("#result").hide();
+	$("#form").hide();
 	var initialPaginationData = {
 		"courseName": "",
 		"instructorName": "",
@@ -103,7 +105,7 @@ $(document).ready(function() {
 		for (var key in ticketChain) {
 			ticketChainNumbers.push(hexToBn('0' + ticketChain[key]).toString());
 		}
-
+		var itemsProcessed = 0;
 		$.each(selectedLectures, function (i, item) {
 			var getLecturerSignaturesData = {
 				courseId: courseId,
@@ -117,14 +119,43 @@ $(document).ready(function() {
 				datatype: "json",
 				data: getLecturerSignaturesData,
 				success: function (result) {
-					console.log(i);
 					ticketChain[item] = dec2hex(result);
-					console.log(ticketChain);
+					itemsProcessed++;
+					if(itemsProcessed === selectedLectures.length){
+						populateSuccessMarkup(ticketChain);
+					}
 				}
 			});
 
 		});
+
 	});
+
+	$("body").on("click","#ticketChain",function(){
+		$("#ticketChain").prop("readonly", true);
+
+		var copyText =  $("#ticketChain");
+
+		// Select the text field */
+		copyText.select();
+
+		// Copy the text inside the text field */
+		document.execCommand("copy");
+
+		// Alert the copied text
+		$("#alertBox").modal({
+			"backdrop":"static",
+			"keyboard":true,
+			"show":true
+		});
+	});
+
+	function populateSuccessMarkup(tChain){
+		$("#result").html("<strong>Success!</strong><hr>" +
+			"<strong>Use the following hash chain to proceed with your evaluation</strong><br>" +
+			"<textarea class='form-control' id='ticketChain' rows='10'>" + JSON.stringify(tChain) + "</textarea>").show();
+		$("#attendanceChain").hide();
+	}
 
     function hexToBn(hex) {
         if (hex.length % 2) {

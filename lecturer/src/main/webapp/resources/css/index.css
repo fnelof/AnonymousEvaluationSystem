@@ -27,3 +27,7 @@ th,td{
 .lectureRow {
 	margin-top: 13px;
 }
+
+.modal-dialog {
+	color: black;
+}
