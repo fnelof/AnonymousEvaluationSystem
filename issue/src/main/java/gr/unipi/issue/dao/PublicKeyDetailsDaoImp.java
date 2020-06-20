@@ -46,7 +46,7 @@ public class PublicKeyDetailsDaoImp implements PublicKeyDetailsDao{
 	@Override
 	public PublicKeyDetails getPublicKeyDetailsOfCourse(BigInteger courseId) throws IOException, CertificateException, KeyStoreException, NoSuchAlgorithmException {
 		RSAPublicKey pk;
-		String alias = courseId.toString();
+		String alias = "public"+courseId.toString();
 
 		try(FileInputStream fin = new FileInputStream(courseKeystorePath)) {
 				KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());

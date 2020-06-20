@@ -157,7 +157,7 @@ $(document).ready(function() {
 	$(document).on('click','#voteButton',function() {
 		var m = JSON.parse($("#message").val());
 		var ticketChain = getTicketChain(m);
-		m["EAT"] = hexToBn('0' + m["EAT"].toString()).toString();
+		//m["EAT"] = hexToBn('0' + m["EAT"].toString()).toString();
 		// check if signed ticket is empty
 		if($("#signedTicket").val()===""){
 			$("#error").html("<i class='material-icons'>warning</i><br>Signed ticket cannot be empty");

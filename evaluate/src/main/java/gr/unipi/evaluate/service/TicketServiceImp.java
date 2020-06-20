@@ -3,6 +3,7 @@ package gr.unipi.evaluate.service;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
@@ -10,6 +11,7 @@ import java.security.cert.CertificateException;
 import javax.persistence.NoResultException;
 
 import gr.unipi.evaluate.common.Constants;
+import gr.unipi.evaluate.model.Course;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bouncycastle.util.encoders.Hex;
@@ -60,12 +62,12 @@ public class TicketServiceImp implements TicketService{
 	 *  The condition for the signed ticket to be valid is:
 	 *  verification(signedTicket) = h(m)
 	*/
-	@Override
-	public boolean isValid(String msg, BigInteger signedTicket) throws NoSuchAlgorithmException,
-			IOException, CertificateException {
+	@Transactional
+	public boolean isValid(String msg, BigInteger signedTicket, Course course) throws NoSuchAlgorithmException,
+			IOException, CertificateException, KeyStoreException {
 		logger.info("Start isValid, message: {}, signedTicket: {}", msg, signedTicket);
-		BigInteger ticket = generateTicket(msg);
-		PublicKeyDetails publicKey = publicKeyDao.getPublicKeyDetails();
+		BigInteger ticket = calculateTicketOfEAT(msg, course.getNumberOfLectures());
+		PublicKeyDetails publicKey = publicKeyDao.getPublicKeyDetailsOfIssuerCourse(course.getId());
 		
 		BigInteger verifiedTicket = signedTicket.modPow(publicKey.getExponent(), publicKey.getModulus());
 		if(ticket.equals(verifiedTicket)) {
@@ -75,6 +77,31 @@ public class TicketServiceImp implements TicketService{
 		logger.warn("End isValid, result: {}, message: {}, signedTicket: {}", "false", msg, signedTicket);
 		return false;
 	}
+
+	private BigInteger calculateTicketOfEAT(String ticket, int totalLectures) throws NoSuchAlgorithmException {
+
+		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		String t = ticket;
+		for(int i=0;i<totalLectures;i++){
+			byte[] encodedhash = digest.digest(
+					t.getBytes(StandardCharsets.UTF_8));
+			t = bytesToHex(encodedhash);
+		}
+
+		return new BigInteger(t.getBytes());
+	}
+
+	//TODO put this in a UTILS file
+	private static String bytesToHex(byte[] hash) {
+		StringBuffer hexString = new StringBuffer();
+		for (int i = 0; i < hash.length; i++) {
+			String hex = Integer.toHexString(0xff & hash[i]);
+			if(hex.length() == 1) hexString.append('0');
+			hexString.append(hex);
+		}
+		return hexString.toString();
+	}
+
 	// Checks if the ticket is already used
 	@Transactional
 	public boolean isUsed(String ticket) {

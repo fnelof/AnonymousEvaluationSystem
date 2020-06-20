@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gr.unipi.evaluate.common.Constants;
+import gr.unipi.evaluate.dao.CourseDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -36,7 +37,9 @@ public class EvaluationServiceImp implements EvaluationService{
 	
 	@Autowired
 	EvaluationDao evaluationDao;
-	
+
+	@Autowired
+	CourseDao courseDao;
 	/* 
 	 * Submits the ticket and the evaluation of the instructor 
 	 * after all the necessary prerequisites are checked
@@ -51,9 +54,9 @@ public class EvaluationServiceImp implements EvaluationService{
 
 		JSONObject response = new JSONObject();
 		try {
-
+			Course course = courseDao.findCourseById(courseId);
 			// check if ticket is valid ( verification(signedTicket) = h(m) )
-			if(ticketService.isValid(message, signedTicket)) {
+			if(ticketService.isValid(message, signedTicket, course)) {
 			
 				String ticket = ticketService.generateHash(message);
 				

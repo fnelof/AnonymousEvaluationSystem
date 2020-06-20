@@ -132,6 +132,8 @@ public class Course {
 		this.instructors = instructors;
 	}
 
+	public int getAttendancePrerequisite() { return attendancePrerequisite;	}
+
 	@Override
 	public String toString() {
 		return "Course{" +

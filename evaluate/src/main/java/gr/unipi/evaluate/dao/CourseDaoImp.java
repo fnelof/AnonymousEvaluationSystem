@@ -38,4 +38,18 @@ public class CourseDaoImp implements CourseDao{
 		logger.info("End getCoursesFromSyllabus, syllabus id: {}", id);
 		return courseList;
 	}
+
+	@Override
+	public Course findCourseById(BigInteger id) {
+		logger.info("Start getCoursesFromSyllabus, course id: {}", id);
+		Session session = sessionFactory.getCurrentSession();
+
+		@SuppressWarnings("unchecked")
+		Query<Course> query = session.createQuery("from Course where id=:id");
+		query.setParameter("id", id);
+		Course course =  query.getSingleResult();
+
+		logger.info("End getCoursesFromSyllabus, course id: {}", id);
+		return course;
+	}
 }

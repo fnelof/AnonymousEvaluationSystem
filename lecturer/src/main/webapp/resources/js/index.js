@@ -100,7 +100,6 @@ $(document).ready(function() {
 		$.each($("input[name='lecture']:checked"), function () {
 			selectedLectures.push($(this).val());
 		});
-		console.log(selectedLectures);
 		var ticketChainNumbers = [];
 		for (var key in ticketChain) {
 			ticketChainNumbers.push(hexToBn('0' + ticketChain[key]).toString());
